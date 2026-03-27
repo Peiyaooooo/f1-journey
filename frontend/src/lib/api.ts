@@ -78,3 +78,38 @@ export async function fetchRaceEvent(id: number): Promise<RaceEventWithCircuit> 
   if (!res.ok) throw new Error("Failed to fetch race event");
   return res.json();
 }
+
+export interface SeatSection {
+  id: number;
+  circuit_id: number;
+  name: string;
+  section_type: string;
+  location_on_track: string | null;
+  has_roof: boolean;
+  has_screen: boolean;
+  pit_view: boolean;
+  podium_view: boolean;
+  capacity: number | null;
+  view_description: string | null;
+  latitude: number;
+  longitude: number;
+  view_photos: string[] | null;
+}
+
+export async function fetchSections(
+  circuitId: number,
+  params?: { section_type?: string; has_roof?: boolean }
+): Promise<SeatSection[]> {
+  const url = new URL(`${API_URL}/api/circuits/${circuitId}/sections`);
+  if (params?.section_type) url.searchParams.set("section_type", params.section_type);
+  if (params?.has_roof !== undefined) url.searchParams.set("has_roof", String(params.has_roof));
+  const res = await fetch(url.toString(), { next: { revalidate: 3600 } });
+  if (!res.ok) throw new Error("Failed to fetch sections");
+  return res.json();
+}
+
+export async function fetchSection(id: number): Promise<SeatSection> {
+  const res = await fetch(`${API_URL}/api/sections/${id}`, { next: { revalidate: 3600 } });
+  if (!res.ok) throw new Error("Failed to fetch section");
+  return res.json();
+}
