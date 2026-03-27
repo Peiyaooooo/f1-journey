@@ -113,3 +113,47 @@ export async function fetchSection(id: number): Promise<SeatSection> {
   if (!res.ok) throw new Error("Failed to fetch section");
   return res.json();
 }
+
+export interface TicketListing {
+  id: number;
+  circuit_id: number;
+  race_event_id: number;
+  seat_section_id: number | null;
+  source_site: string;
+  source_url: string;
+  source_section_name: string;
+  ticket_type: string;
+  price: number;
+  currency: string;
+  available_quantity: number | null;
+  includes: string[] | null;
+  last_scraped_at: string;
+  is_available: boolean;
+}
+
+export async function fetchCircuitTickets(
+  circuitId: number,
+  params?: { source_site?: string; ticket_type?: string; min_price?: number; max_price?: number; sort?: string }
+): Promise<TicketListing[]> {
+  const url = new URL(`${API_URL}/api/circuits/${circuitId}/tickets`);
+  if (params?.source_site) url.searchParams.set("source_site", params.source_site);
+  if (params?.ticket_type) url.searchParams.set("ticket_type", params.ticket_type);
+  if (params?.min_price !== undefined) url.searchParams.set("min_price", String(params.min_price));
+  if (params?.max_price !== undefined) url.searchParams.set("max_price", String(params.max_price));
+  if (params?.sort) url.searchParams.set("sort", params.sort);
+  const res = await fetch(url.toString(), { next: { revalidate: 60 } });
+  if (!res.ok) throw new Error("Failed to fetch tickets");
+  return res.json();
+}
+
+export async function fetchSectionTickets(sectionId: number): Promise<TicketListing[]> {
+  const res = await fetch(`${API_URL}/api/sections/${sectionId}/tickets`, { next: { revalidate: 60 } });
+  if (!res.ok) throw new Error("Failed to fetch section tickets");
+  return res.json();
+}
+
+export async function fetchUnmatchedTickets(circuitId: number): Promise<TicketListing[]> {
+  const res = await fetch(`${API_URL}/api/circuits/${circuitId}/tickets/unmatched`, { next: { revalidate: 60 } });
+  if (!res.ok) throw new Error("Failed to fetch unmatched tickets");
+  return res.json();
+}
