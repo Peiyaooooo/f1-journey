@@ -1,5 +1,5 @@
 // frontend/src/app/tracks/[id]/page.tsx
-import { fetchCircuit, fetchRaceEvents } from "@/lib/api";
+import { fetchCircuit, fetchRaceEvents, type RaceEvent } from "@/lib/api";
 import TrackStats from "@/components/TrackStats";
 import { notFound } from "next/navigation";
 
@@ -15,10 +15,10 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ id
     notFound();
   }
 
-  let raceEvents;
+  let raceEvents: RaceEvent[];
   try {
-    raceEvents = await fetchRaceEvents({ season: 2026 });
-    raceEvents = raceEvents.filter((e) => e.circuit_id === circuitId);
+    const allEvents = await fetchRaceEvents({ season: 2026 });
+    raceEvents = allEvents.filter((e) => e.circuit_id === circuitId);
   } catch {
     raceEvents = [];
   }

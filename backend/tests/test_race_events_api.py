@@ -3,13 +3,17 @@ from datetime import date
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 
 from app.database import Base, get_db
 from app.main import app
 from app.models import Circuit, RaceEvent
 
-TEST_DATABASE_URL = "sqlite:///./test_api_events.db"
-engine = create_engine(TEST_DATABASE_URL)
+engine = create_engine(
+    "sqlite:///:memory:",
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
+)
 TestSession = sessionmaker(bind=engine)
 
 
@@ -21,12 +25,12 @@ def override_get_db():
         db.close()
 
 
-app.dependency_overrides[get_db] = override_get_db
 client = TestClient(app)
 
 
 def setup_function():
     Base.metadata.create_all(engine)
+    app.dependency_overrides[get_db] = override_get_db
     db = TestSession()
     circuit = Circuit(
         name="Silverstone", country="United Kingdom", continent="Europe",
@@ -54,6 +58,7 @@ def setup_function():
 
 
 def teardown_function():
+    app.dependency_overrides.pop(get_db, None)
     Base.metadata.drop_all(engine)
 
 

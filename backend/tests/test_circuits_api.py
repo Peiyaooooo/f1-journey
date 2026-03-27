@@ -1,13 +1,17 @@
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 
 from app.database import Base, get_db
 from app.main import app
 from app.models import Circuit
 
-TEST_DATABASE_URL = "sqlite:///./test_api.db"
-engine = create_engine(TEST_DATABASE_URL)
+engine = create_engine(
+    "sqlite:///:memory:",
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
+)
 TestSession = sessionmaker(bind=engine)
 
 
@@ -19,12 +23,12 @@ def override_get_db():
         db.close()
 
 
-app.dependency_overrides[get_db] = override_get_db
 client = TestClient(app)
 
 
 def setup_function():
     Base.metadata.create_all(engine)
+    app.dependency_overrides[get_db] = override_get_db
     db = TestSession()
     circuits = [
         Circuit(
@@ -55,6 +59,7 @@ def setup_function():
 
 
 def teardown_function():
+    app.dependency_overrides.pop(get_db, None)
     Base.metadata.drop_all(engine)
 
 
@@ -63,7 +68,6 @@ def test_list_circuits():
     assert resp.status_code == 200
     data = resp.json()
     assert len(data) == 3
-    # Results are ordered alphabetically by name: Marina Bay < Monza < Silverstone
     assert data[0]["name"] == "Marina Bay"
 
 
