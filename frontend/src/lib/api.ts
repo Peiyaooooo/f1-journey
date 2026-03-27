@@ -157,3 +157,52 @@ export async function fetchUnmatchedTickets(circuitId: number): Promise<TicketLi
   if (!res.ok) throw new Error("Failed to fetch unmatched tickets");
   return res.json();
 }
+
+export interface TravelEstimate {
+  id: number;
+  circuit_id: number;
+  origin_city: string;
+  origin_country: string;
+  origin_airport_code: string;
+  flight_price_min: number;
+  flight_price_max: number;
+  flight_duration_hours: number;
+  flight_stops: number;
+  train_available: boolean;
+  train_price_min: number | null;
+  train_price_max: number | null;
+  train_duration_hours: number | null;
+  local_transport_cost: number;
+  hotel_avg_per_night: number;
+  last_fetched_at: string;
+}
+
+export interface ExchangeRate {
+  currency_code: string;
+  rate_from_usd: number;
+  last_updated_at: string;
+}
+
+export async function fetchTravelEstimate(circuitId: number, origin: string): Promise<TravelEstimate> {
+  const url = new URL(`${API_URL}/api/travel/estimate`);
+  url.searchParams.set("circuit_id", String(circuitId));
+  url.searchParams.set("origin", origin);
+  const res = await fetch(url.toString());
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: "Failed to fetch travel estimate" }));
+    throw new Error(err.detail || "Failed to fetch travel estimate");
+  }
+  return res.json();
+}
+
+export async function fetchExchangeRates(): Promise<ExchangeRate[]> {
+  const res = await fetch(`${API_URL}/api/travel/exchange-rates`, { next: { revalidate: 3600 } });
+  if (!res.ok) throw new Error("Failed to fetch exchange rates");
+  return res.json();
+}
+
+export async function fetchCitySuggestions(): Promise<string[]> {
+  const res = await fetch(`${API_URL}/api/travel/cities`, { next: { revalidate: 86400 } });
+  if (!res.ok) throw new Error("Failed to fetch cities");
+  return res.json();
+}
