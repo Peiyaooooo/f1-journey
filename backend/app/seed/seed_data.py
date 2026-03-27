@@ -1,4 +1,9 @@
-"""Seed data for the 2026 F1 season — circuits and race calendar."""
+"""Seed data for the 2026 F1 season — circuits and race calendar.
+
+Source: https://www.formula1.com/en/racing/2026
+
+Run: python -m app.seed.seed_data
+"""
 
 from datetime import date
 
@@ -7,46 +12,10 @@ from app.models.circuit import Circuit
 from app.models.race_event import RaceEvent
 
 # ---------------------------------------------------------------------------
-# Circuit definitions
-# Fields: name, country, continent, city, latitude, longitude,
-#         track_type, track_length_km, number_of_turns, drs_zones_count,
-#         overtake_difficulty, avg_overtakes_per_race, rain_probability_pct,
-#         nearest_airport
+# Circuit definitions (22 circuits on the 2026 calendar)
 # ---------------------------------------------------------------------------
 
 CIRCUITS = [
-    {
-        "name": "Bahrain International Circuit",
-        "country": "Bahrain",
-        "continent": "Asia",
-        "city": "Sakhir",
-        "latitude": 26.0325,
-        "longitude": 50.5106,
-        "track_type": "permanent",
-        "track_length_km": 5.412,
-        "number_of_turns": 15,
-        "drs_zones_count": 3,
-        "overtake_difficulty": 4,
-        "avg_overtakes_per_race": 45.0,
-        "rain_probability_pct": 2,
-        "nearest_airport": "BAH",
-    },
-    {
-        "name": "Jeddah Corniche Circuit",
-        "country": "Saudi Arabia",
-        "continent": "Asia",
-        "city": "Jeddah",
-        "latitude": 21.6319,
-        "longitude": 39.1044,
-        "track_type": "street",
-        "track_length_km": 6.174,
-        "number_of_turns": 27,
-        "drs_zones_count": 3,
-        "overtake_difficulty": 5,
-        "avg_overtakes_per_race": 35.0,
-        "rain_probability_pct": 1,
-        "nearest_airport": "JED",
-    },
     {
         "name": "Albert Park Circuit",
         "country": "Australia",
@@ -61,23 +30,7 @@ CIRCUITS = [
         "overtake_difficulty": 5,
         "avg_overtakes_per_race": 30.0,
         "rain_probability_pct": 25,
-        "nearest_airport": "MEL",
-    },
-    {
-        "name": "Suzuka International Racing Course",
-        "country": "Japan",
-        "continent": "Asia",
-        "city": "Suzuka",
-        "latitude": 34.8431,
-        "longitude": 136.5407,
-        "track_type": "permanent",
-        "track_length_km": 5.807,
-        "number_of_turns": 18,
-        "drs_zones_count": 1,
-        "overtake_difficulty": 7,
-        "avg_overtakes_per_race": 20.0,
-        "rain_probability_pct": 35,
-        "nearest_airport": "NGO",
+        "nearest_airport": "Melbourne Tullamarine (MEL)",
     },
     {
         "name": "Shanghai International Circuit",
@@ -93,11 +46,27 @@ CIRCUITS = [
         "overtake_difficulty": 5,
         "avg_overtakes_per_race": 38.0,
         "rain_probability_pct": 30,
-        "nearest_airport": "PVG",
+        "nearest_airport": "Shanghai Pudong (PVG)",
+    },
+    {
+        "name": "Suzuka International Racing Course",
+        "country": "Japan",
+        "continent": "Asia",
+        "city": "Suzuka",
+        "latitude": 34.8431,
+        "longitude": 136.5407,
+        "track_type": "permanent",
+        "track_length_km": 5.807,
+        "number_of_turns": 18,
+        "drs_zones_count": 1,
+        "overtake_difficulty": 7,
+        "avg_overtakes_per_race": 20.0,
+        "rain_probability_pct": 35,
+        "nearest_airport": "Chubu Centrair (NGO)",
     },
     {
         "name": "Miami International Autodrome",
-        "country": "USA",
+        "country": "United States",
         "continent": "North America",
         "city": "Miami",
         "latitude": 25.9581,
@@ -109,55 +78,7 @@ CIRCUITS = [
         "overtake_difficulty": 5,
         "avg_overtakes_per_race": 32.0,
         "rain_probability_pct": 40,
-        "nearest_airport": "MIA",
-    },
-    {
-        "name": "Autodromo Enzo e Dino Ferrari",
-        "country": "Italy",
-        "continent": "Europe",
-        "city": "Imola",
-        "latitude": 44.3439,
-        "longitude": 11.7167,
-        "track_type": "permanent",
-        "track_length_km": 4.909,
-        "number_of_turns": 19,
-        "drs_zones_count": 2,
-        "overtake_difficulty": 7,
-        "avg_overtakes_per_race": 22.0,
-        "rain_probability_pct": 25,
-        "nearest_airport": "BLQ",
-    },
-    {
-        "name": "Circuit de Monaco",
-        "country": "Monaco",
-        "continent": "Europe",
-        "city": "Monte Carlo",
-        "latitude": 43.7347,
-        "longitude": 7.4206,
-        "track_type": "street",
-        "track_length_km": 3.337,
-        "number_of_turns": 19,
-        "drs_zones_count": 1,
-        "overtake_difficulty": 2,
-        "avg_overtakes_per_race": 5.0,
-        "rain_probability_pct": 15,
-        "nearest_airport": "NCE",
-    },
-    {
-        "name": "Circuit de Barcelona-Catalunya",
-        "country": "Spain",
-        "continent": "Europe",
-        "city": "Barcelona",
-        "latitude": 41.5700,
-        "longitude": 2.2611,
-        "track_type": "permanent",
-        "track_length_km": 4.657,
-        "number_of_turns": 14,
-        "drs_zones_count": 2,
-        "overtake_difficulty": 6,
-        "avg_overtakes_per_race": 25.0,
-        "rain_probability_pct": 10,
-        "nearest_airport": "BCN",
+        "nearest_airport": "Miami International (MIA)",
     },
     {
         "name": "Circuit Gilles Villeneuve",
@@ -173,7 +94,39 @@ CIRCUITS = [
         "overtake_difficulty": 5,
         "avg_overtakes_per_race": 35.0,
         "rain_probability_pct": 20,
-        "nearest_airport": "YUL",
+        "nearest_airport": "Montreal Trudeau (YUL)",
+    },
+    {
+        "name": "Circuit de Monaco",
+        "country": "Monaco",
+        "continent": "Europe",
+        "city": "Monte Carlo",
+        "latitude": 43.7347,
+        "longitude": 7.4206,
+        "track_type": "street",
+        "track_length_km": 3.337,
+        "number_of_turns": 19,
+        "drs_zones_count": 1,
+        "overtake_difficulty": 2,
+        "avg_overtakes_per_race": 5.0,
+        "rain_probability_pct": 15,
+        "nearest_airport": "Nice Cote d'Azur (NCE)",
+    },
+    {
+        "name": "Circuit de Barcelona-Catalunya",
+        "country": "Spain",
+        "continent": "Europe",
+        "city": "Barcelona",
+        "latitude": 41.5700,
+        "longitude": 2.2611,
+        "track_type": "permanent",
+        "track_length_km": 4.657,
+        "number_of_turns": 14,
+        "drs_zones_count": 2,
+        "overtake_difficulty": 6,
+        "avg_overtakes_per_race": 25.0,
+        "rain_probability_pct": 10,
+        "nearest_airport": "Barcelona El Prat (BCN)",
     },
     {
         "name": "Red Bull Ring",
@@ -189,11 +142,11 @@ CIRCUITS = [
         "overtake_difficulty": 4,
         "avg_overtakes_per_race": 40.0,
         "rain_probability_pct": 30,
-        "nearest_airport": "GRZ",
+        "nearest_airport": "Graz (GRZ)",
     },
     {
         "name": "Silverstone Circuit",
-        "country": "UK",
+        "country": "Great Britain",
         "continent": "Europe",
         "city": "Silverstone",
         "latitude": 52.0786,
@@ -205,7 +158,23 @@ CIRCUITS = [
         "overtake_difficulty": 6,
         "avg_overtakes_per_race": 42.5,
         "rain_probability_pct": 55,
-        "nearest_airport": "LTN",
+        "nearest_airport": "London Luton (LTN)",
+    },
+    {
+        "name": "Circuit de Spa-Francorchamps",
+        "country": "Belgium",
+        "continent": "Europe",
+        "city": "Spa",
+        "latitude": 50.4372,
+        "longitude": 5.9714,
+        "track_type": "permanent",
+        "track_length_km": 7.004,
+        "number_of_turns": 19,
+        "drs_zones_count": 2,
+        "overtake_difficulty": 4,
+        "avg_overtakes_per_race": 55.0,
+        "rain_probability_pct": 60,
+        "nearest_airport": "Brussels (BRU)",
     },
     {
         "name": "Hungaroring",
@@ -221,23 +190,7 @@ CIRCUITS = [
         "overtake_difficulty": 8,
         "avg_overtakes_per_race": 15.0,
         "rain_probability_pct": 20,
-        "nearest_airport": "BUD",
-    },
-    {
-        "name": "Circuit de Spa-Francorchamps",
-        "country": "Belgium",
-        "continent": "Europe",
-        "city": "Stavelot",
-        "latitude": 50.4372,
-        "longitude": 5.9714,
-        "track_type": "permanent",
-        "track_length_km": 7.004,
-        "number_of_turns": 19,
-        "drs_zones_count": 2,
-        "overtake_difficulty": 4,
-        "avg_overtakes_per_race": 55.0,
-        "rain_probability_pct": 60,
-        "nearest_airport": "BRU",
+        "nearest_airport": "Budapest Liszt Ferenc (BUD)",
     },
     {
         "name": "Circuit Zandvoort",
@@ -253,7 +206,7 @@ CIRCUITS = [
         "overtake_difficulty": 8,
         "avg_overtakes_per_race": 12.0,
         "rain_probability_pct": 35,
-        "nearest_airport": "AMS",
+        "nearest_airport": "Amsterdam Schiphol (AMS)",
     },
     {
         "name": "Autodromo Nazionale di Monza",
@@ -269,7 +222,23 @@ CIRCUITS = [
         "overtake_difficulty": 3,
         "avg_overtakes_per_race": 48.0,
         "rain_probability_pct": 20,
-        "nearest_airport": "MXP",
+        "nearest_airport": "Milan Malpensa (MXP)",
+    },
+    {
+        "name": "Madrid Street Circuit",
+        "country": "Spain",
+        "continent": "Europe",
+        "city": "Madrid",
+        "latitude": 40.4168,
+        "longitude": -3.7038,
+        "track_type": "street",
+        "track_length_km": 5.473,
+        "number_of_turns": 20,
+        "drs_zones_count": 2,
+        "overtake_difficulty": 5,
+        "avg_overtakes_per_race": 25.0,
+        "rain_probability_pct": 10,
+        "nearest_airport": "Madrid Barajas (MAD)",
     },
     {
         "name": "Baku City Circuit",
@@ -285,7 +254,7 @@ CIRCUITS = [
         "overtake_difficulty": 4,
         "avg_overtakes_per_race": 40.0,
         "rain_probability_pct": 10,
-        "nearest_airport": "GYD",
+        "nearest_airport": "Heydar Aliyev (GYD)",
     },
     {
         "name": "Marina Bay Street Circuit",
@@ -301,11 +270,11 @@ CIRCUITS = [
         "overtake_difficulty": 7,
         "avg_overtakes_per_race": 18.0,
         "rain_probability_pct": 40,
-        "nearest_airport": "SIN",
+        "nearest_airport": "Changi (SIN)",
     },
     {
         "name": "Circuit of the Americas",
-        "country": "USA",
+        "country": "United States",
         "continent": "North America",
         "city": "Austin",
         "latitude": 30.1328,
@@ -317,7 +286,7 @@ CIRCUITS = [
         "overtake_difficulty": 5,
         "avg_overtakes_per_race": 35.0,
         "rain_probability_pct": 20,
-        "nearest_airport": "AUS",
+        "nearest_airport": "Austin-Bergstrom (AUS)",
     },
     {
         "name": "Autodromo Hermanos Rodriguez",
@@ -333,7 +302,7 @@ CIRCUITS = [
         "overtake_difficulty": 5,
         "avg_overtakes_per_race": 30.0,
         "rain_probability_pct": 25,
-        "nearest_airport": "MEX",
+        "nearest_airport": "Mexico City (MEX)",
     },
     {
         "name": "Interlagos",
@@ -349,11 +318,11 @@ CIRCUITS = [
         "overtake_difficulty": 4,
         "avg_overtakes_per_race": 42.0,
         "rain_probability_pct": 45,
-        "nearest_airport": "GRU",
+        "nearest_airport": "Sao Paulo Guarulhos (GRU)",
     },
     {
         "name": "Las Vegas Street Circuit",
-        "country": "USA",
+        "country": "United States",
         "continent": "North America",
         "city": "Las Vegas",
         "latitude": 36.1147,
@@ -365,13 +334,13 @@ CIRCUITS = [
         "overtake_difficulty": 4,
         "avg_overtakes_per_race": 38.0,
         "rain_probability_pct": 5,
-        "nearest_airport": "LAS",
+        "nearest_airport": "Harry Reid International (LAS)",
     },
     {
         "name": "Losail International Circuit",
         "country": "Qatar",
         "continent": "Asia",
-        "city": "Lusail",
+        "city": "Doha",
         "latitude": 25.4900,
         "longitude": 51.4542,
         "track_type": "permanent",
@@ -381,11 +350,11 @@ CIRCUITS = [
         "overtake_difficulty": 5,
         "avg_overtakes_per_race": 30.0,
         "rain_probability_pct": 1,
-        "nearest_airport": "DOH",
+        "nearest_airport": "Hamad International (DOH)",
     },
     {
         "name": "Yas Marina Circuit",
-        "country": "UAE",
+        "country": "United Arab Emirates",
         "continent": "Asia",
         "city": "Abu Dhabi",
         "latitude": 24.4672,
@@ -397,86 +366,75 @@ CIRCUITS = [
         "overtake_difficulty": 5,
         "avg_overtakes_per_race": 35.0,
         "rain_probability_pct": 1,
-        "nearest_airport": "AUH",
+        "nearest_airport": "Abu Dhabi (AUH)",
     },
 ]
 
 # ---------------------------------------------------------------------------
-# 2026 Race calendar
-# Fields: circuit_name (must match CIRCUITS name), race_name, date, sprint_weekend
+# 2026 Race calendar (22 rounds)
+# Source: https://www.formula1.com/en/racing/2026
+# Sprint weekends: Shanghai, Miami, Montreal, Silverstone, Zandvoort, Singapore
 # ---------------------------------------------------------------------------
 
 RACES_2026 = [
     {
-        "circuit_name": "Bahrain International Circuit",
-        "race_name": "Bahrain Grand Prix",
-        "date": date(2026, 3, 1),
-        "sprint_weekend": False,
-    },
-    {
-        "circuit_name": "Jeddah Corniche Circuit",
-        "race_name": "Saudi Arabian Grand Prix",
-        "date": date(2026, 3, 15),
-        "sprint_weekend": False,
-    },
-    {
         "circuit_name": "Albert Park Circuit",
         "race_name": "Australian Grand Prix",
-        "date": date(2026, 3, 29),
-        "sprint_weekend": False,
-    },
-    {
-        "circuit_name": "Suzuka International Racing Course",
-        "race_name": "Japanese Grand Prix",
-        "date": date(2026, 4, 12),
+        "date": date(2026, 3, 8),
         "sprint_weekend": False,
     },
     {
         "circuit_name": "Shanghai International Circuit",
         "race_name": "Chinese Grand Prix",
-        "date": date(2026, 4, 26),
+        "date": date(2026, 3, 15),
         "sprint_weekend": True,
+    },
+    {
+        "circuit_name": "Suzuka International Racing Course",
+        "race_name": "Japanese Grand Prix",
+        "date": date(2026, 3, 29),
+        "sprint_weekend": False,
     },
     {
         "circuit_name": "Miami International Autodrome",
         "race_name": "Miami Grand Prix",
-        "date": date(2026, 5, 10),
+        "date": date(2026, 5, 3),
         "sprint_weekend": True,
-    },
-    {
-        "circuit_name": "Autodromo Enzo e Dino Ferrari",
-        "race_name": "Emilia Romagna Grand Prix",
-        "date": date(2026, 5, 24),
-        "sprint_weekend": False,
-    },
-    {
-        "circuit_name": "Circuit de Monaco",
-        "race_name": "Monaco Grand Prix",
-        "date": date(2026, 5, 31),
-        "sprint_weekend": False,
-    },
-    {
-        "circuit_name": "Circuit de Barcelona-Catalunya",
-        "race_name": "Spanish Grand Prix",
-        "date": date(2026, 6, 14),
-        "sprint_weekend": False,
     },
     {
         "circuit_name": "Circuit Gilles Villeneuve",
         "race_name": "Canadian Grand Prix",
-        "date": date(2026, 6, 28),
+        "date": date(2026, 5, 24),
+        "sprint_weekend": True,
+    },
+    {
+        "circuit_name": "Circuit de Monaco",
+        "race_name": "Monaco Grand Prix",
+        "date": date(2026, 6, 7),
+        "sprint_weekend": False,
+    },
+    {
+        "circuit_name": "Circuit de Barcelona-Catalunya",
+        "race_name": "Barcelona-Catalunya Grand Prix",
+        "date": date(2026, 6, 14),
         "sprint_weekend": False,
     },
     {
         "circuit_name": "Red Bull Ring",
         "race_name": "Austrian Grand Prix",
-        "date": date(2026, 7, 12),
-        "sprint_weekend": True,
+        "date": date(2026, 6, 28),
+        "sprint_weekend": False,
     },
     {
         "circuit_name": "Silverstone Circuit",
         "race_name": "British Grand Prix",
         "date": date(2026, 7, 5),
+        "sprint_weekend": True,
+    },
+    {
+        "circuit_name": "Circuit de Spa-Francorchamps",
+        "race_name": "Belgian Grand Prix",
+        "date": date(2026, 7, 19),
         "sprint_weekend": False,
     },
     {
@@ -486,16 +444,10 @@ RACES_2026 = [
         "sprint_weekend": False,
     },
     {
-        "circuit_name": "Circuit de Spa-Francorchamps",
-        "race_name": "Belgian Grand Prix",
-        "date": date(2026, 8, 2),
-        "sprint_weekend": False,
-    },
-    {
         "circuit_name": "Circuit Zandvoort",
         "race_name": "Dutch Grand Prix",
-        "date": date(2026, 8, 30),
-        "sprint_weekend": False,
+        "date": date(2026, 8, 23),
+        "sprint_weekend": True,
     },
     {
         "circuit_name": "Autodromo Nazionale di Monza",
@@ -504,22 +456,28 @@ RACES_2026 = [
         "sprint_weekend": False,
     },
     {
+        "circuit_name": "Madrid Street Circuit",
+        "race_name": "Spanish Grand Prix",
+        "date": date(2026, 9, 13),
+        "sprint_weekend": False,
+    },
+    {
         "circuit_name": "Baku City Circuit",
         "race_name": "Azerbaijan Grand Prix",
-        "date": date(2026, 9, 20),
-        "sprint_weekend": True,
+        "date": date(2026, 9, 26),
+        "sprint_weekend": False,
     },
     {
         "circuit_name": "Marina Bay Street Circuit",
         "race_name": "Singapore Grand Prix",
-        "date": date(2026, 10, 4),
-        "sprint_weekend": False,
+        "date": date(2026, 10, 11),
+        "sprint_weekend": True,
     },
     {
         "circuit_name": "Circuit of the Americas",
         "race_name": "United States Grand Prix",
-        "date": date(2026, 10, 18),
-        "sprint_weekend": True,
+        "date": date(2026, 10, 25),
+        "sprint_weekend": False,
     },
     {
         "circuit_name": "Autodromo Hermanos Rodriguez",
@@ -531,12 +489,12 @@ RACES_2026 = [
         "circuit_name": "Interlagos",
         "race_name": "Sao Paulo Grand Prix",
         "date": date(2026, 11, 8),
-        "sprint_weekend": True,
+        "sprint_weekend": False,
     },
     {
         "circuit_name": "Las Vegas Street Circuit",
         "race_name": "Las Vegas Grand Prix",
-        "date": date(2026, 11, 22),
+        "date": date(2026, 11, 21),
         "sprint_weekend": False,
     },
     {
@@ -556,16 +514,14 @@ RACES_2026 = [
 
 def seed() -> None:
     """Seed the database with 2026 F1 circuits and race events."""
-    # Create tables if they don't exist yet
     Base.metadata.create_all(bind=engine)
 
     db = SessionLocal()
     try:
-        # Skip if already seeded
-        existing = db.query(Circuit).count()
-        if existing > 0:
-            print(f"Database already contains {existing} circuits — skipping seed.")
-            return
+        # Drop existing data and re-seed
+        db.query(RaceEvent).delete()
+        db.query(Circuit).delete()
+        db.commit()
 
         # Insert circuits
         circuit_objs = []
@@ -574,7 +530,7 @@ def seed() -> None:
             db.add(circuit)
             circuit_objs.append(circuit)
 
-        db.flush()  # populate primary keys without committing
+        db.flush()
 
         # Build name -> id map
         name_to_id: dict[str, int] = {c.name: c.id for c in circuit_objs}
