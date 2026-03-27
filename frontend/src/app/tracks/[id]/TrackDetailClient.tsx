@@ -43,13 +43,6 @@ export default function TrackDetailClient({ circuitName, centerLat, centerLng, s
         </button>
       </div>
 
-      {/* Legend */}
-      <div className="px-6 pt-3 flex gap-4 text-xs text-gray-400">
-        <span><span className="inline-block w-3 h-3 rounded-full bg-blue-500 mr-1"></span> Grandstand</span>
-        <span><span className="inline-block w-3 h-3 rounded-full bg-green-500 mr-1"></span> General Admission</span>
-        <span><span className="inline-block w-3 h-3 rounded-full bg-yellow-500 mr-1"></span> Hospitality / VIP</span>
-      </div>
-
       {/* Content */}
       <div className="px-6 py-4">
         {activeTab === "map" ? (
