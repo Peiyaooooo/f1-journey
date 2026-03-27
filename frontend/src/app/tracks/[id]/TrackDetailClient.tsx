@@ -1,22 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import type { SeatSection } from "@/lib/api";
+import { getCircuitMapImage } from "@/lib/circuit-maps";
+import CircuitMap from "@/components/CircuitMap";
 import SectionSidebar from "@/components/SectionSidebar";
 import SectionTable from "@/components/SectionTable";
 
-const TrackMap = dynamic(() => import("@/components/TrackMap"), { ssr: false });
-
 interface TrackDetailClientProps {
+  circuitName: string;
   centerLat: number;
   centerLng: number;
   sections: SeatSection[];
 }
 
-export default function TrackDetailClient({ centerLat, centerLng, sections }: TrackDetailClientProps) {
+export default function TrackDetailClient({ circuitName, centerLat, centerLng, sections }: TrackDetailClientProps) {
   const [activeTab, setActiveTab] = useState<"map" | "table">("map");
   const [selectedSection, setSelectedSection] = useState<SeatSection | null>(null);
+
+  const mapImageUrl = getCircuitMapImage(circuitName);
 
   function handleSectionClick(section: SeatSection) {
     setSelectedSection(section);
@@ -31,6 +33,7 @@ export default function TrackDetailClient({ centerLat, centerLng, sections }: Tr
 
   return (
     <div>
+      {/* Tabs */}
       <div className="flex border-b border-gray-800 px-6">
         <button className={tabClass("map")} onClick={() => setActiveTab("map")}>
           Seat Map
@@ -40,22 +43,24 @@ export default function TrackDetailClient({ centerLat, centerLng, sections }: Tr
         </button>
       </div>
 
+      {/* Legend */}
       <div className="px-6 pt-3 flex gap-4 text-xs text-gray-400">
         <span><span className="inline-block w-3 h-3 rounded-full bg-blue-500 mr-1"></span> Grandstand</span>
         <span><span className="inline-block w-3 h-3 rounded-full bg-green-500 mr-1"></span> General Admission</span>
         <span><span className="inline-block w-3 h-3 rounded-full bg-yellow-500 mr-1"></span> Hospitality / VIP</span>
       </div>
 
+      {/* Content */}
       <div className="px-6 py-4">
         {activeTab === "map" ? (
-          <div className="flex gap-0">
+          <div className="flex gap-4">
             <div className={selectedSection ? "flex-1" : "w-full"}>
-              <TrackMap
-                centerLat={centerLat}
-                centerLng={centerLng}
+              <CircuitMap
+                mapImageUrl={mapImageUrl}
+                circuitName={circuitName}
                 sections={sections}
-                onSectionClick={handleSectionClick}
                 selectedSectionId={selectedSection?.id ?? null}
+                onSectionClick={handleSectionClick}
               />
             </div>
             <SectionSidebar
@@ -64,7 +69,7 @@ export default function TrackDetailClient({ centerLat, centerLng, sections }: Tr
             />
           </div>
         ) : (
-          <div className="flex gap-0">
+          <div className="flex gap-4">
             <div className={selectedSection ? "flex-1" : "w-full"}>
               <SectionTable sections={sections} onSectionClick={handleSectionClick} />
             </div>

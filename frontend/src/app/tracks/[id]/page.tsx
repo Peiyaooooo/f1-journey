@@ -94,6 +94,7 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ id
       {/* Seat Sections */}
       <div className="py-6">
         <TrackDetailClient
+          circuitName={circuit.name}
           centerLat={circuit.latitude}
           centerLng={circuit.longitude}
           sections={sections}
