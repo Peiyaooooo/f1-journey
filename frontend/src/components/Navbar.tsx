@@ -8,9 +8,9 @@ export default function Navbar() {
         <Link href="/" className="text-lg font-bold text-red-500">
           F1 Journey
         </Link>
-        <Link href="/" className="text-sm text-gray-400 hover:text-white">
-          Explore
-        </Link>
+        <Link href="/explore" className="text-sm text-gray-400 hover:text-white">Explore</Link>
+        <Link href="/quiz" className="text-sm text-gray-400 hover:text-white">Quiz</Link>
+        <Link href="/compare" className="text-sm text-gray-400 hover:text-white">Compare</Link>
       </div>
       <div className="flex items-center gap-3">
         <input
