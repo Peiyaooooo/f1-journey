@@ -1,5 +1,5 @@
 // frontend/src/app/tracks/[id]/page.tsx
-import { fetchCircuit, fetchRaceEvents, fetchSections, fetchCircuitTickets, type RaceEvent, type SeatSection, type TicketListing } from "@/lib/api";
+import { fetchCircuit, fetchRaceEvents, fetchSections, fetchCircuitTickets, fetchExchangeRates, type RaceEvent, type SeatSection, type TicketListing, type ExchangeRate } from "@/lib/api";
 import TrackStats from "@/components/TrackStats";
 import TrackDetailClient from "./TrackDetailClient";
 import Link from "next/link";
@@ -37,6 +37,13 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ id
     tickets = await fetchCircuitTickets(circuitId);
   } catch {
     tickets = [];
+  }
+
+  let exchangeRates: ExchangeRate[] = [];
+  try {
+    exchangeRates = await fetchExchangeRates();
+  } catch {
+    exchangeRates = [];
   }
 
   return (
@@ -102,11 +109,13 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ id
       {/* Seat Sections */}
       <div className="py-6">
         <TrackDetailClient
+          circuitId={circuitId}
           circuitName={circuit.name}
           centerLat={circuit.latitude}
           centerLng={circuit.longitude}
           sections={sections}
           tickets={tickets}
+          exchangeRates={exchangeRates}
         />
       </div>
 

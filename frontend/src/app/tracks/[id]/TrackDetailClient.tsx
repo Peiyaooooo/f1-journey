@@ -1,22 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import type { SeatSection, TicketListing } from "@/lib/api";
+import type { SeatSection, TicketListing, ExchangeRate } from "@/lib/api";
 import { getCircuitMapImage } from "@/lib/circuit-maps";
 import CircuitMap from "@/components/CircuitMap";
 import SectionSidebar from "@/components/SectionSidebar";
 import SectionTable from "@/components/SectionTable";
+import TravelTab from "@/components/TravelTab";
 
 interface TrackDetailClientProps {
+  circuitId: number;
   circuitName: string;
   centerLat: number;
   centerLng: number;
   sections: SeatSection[];
   tickets: TicketListing[];
+  exchangeRates: ExchangeRate[];
 }
 
-export default function TrackDetailClient({ circuitName, centerLat, centerLng, sections, tickets }: TrackDetailClientProps) {
-  const [activeTab, setActiveTab] = useState<"map" | "table">("map");
+export default function TrackDetailClient({ circuitId, circuitName, centerLat, centerLng, sections, tickets, exchangeRates }: TrackDetailClientProps) {
+  const [activeTab, setActiveTab] = useState<"map" | "table" | "travel">("map");
   const [selectedSection, setSelectedSection] = useState<SeatSection | null>(null);
 
   const mapImageUrl = getCircuitMapImage(circuitName);
@@ -46,6 +49,9 @@ export default function TrackDetailClient({ circuitName, centerLat, centerLng, s
         <button className={tabClass("table")} onClick={() => setActiveTab("table")}>
           Table View
         </button>
+        <button className={tabClass("travel")} onClick={() => setActiveTab("travel")}>
+          Travel
+        </button>
       </div>
 
       {/* Content */}
@@ -67,6 +73,12 @@ export default function TrackDetailClient({ circuitName, centerLat, centerLng, s
               tickets={sectionTickets}
             />
           </div>
+        ) : activeTab === "travel" ? (
+          <TravelTab
+            circuitId={circuitId}
+            exchangeRates={exchangeRates}
+            tickets={tickets}
+          />
         ) : (
           <div className="flex gap-4">
             <div className={selectedSection ? "flex-1" : "w-full"}>
