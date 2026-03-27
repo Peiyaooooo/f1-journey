@@ -3,6 +3,7 @@ from app.schemas.race_event import RaceEventBase, RaceEventRead, RaceEventWithCi
 from app.schemas.seat_section import SeatSectionRead, SeatSectionList
 from app.schemas.ticket_listing import TicketListingRead
 from app.schemas.travel import TravelEstimateRead, ExchangeRateRead
+from app.schemas.auth import RegisterRequest, LoginRequest, TokenResponse, RefreshRequest, UserRead
 
 __all__ = [
     "CircuitBase", "CircuitRead", "CircuitList",
@@ -10,4 +11,5 @@ __all__ = [
     "SeatSectionRead", "SeatSectionList",
     "TicketListingRead",
     "TravelEstimateRead", "ExchangeRateRead",
+    "RegisterRequest", "LoginRequest", "TokenResponse", "RefreshRequest", "UserRead",
 ]
