@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: f1-journey-api
+    runtime: python
+    buildCommand: pip install -e .
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: F1_DATABASE_URL
+        fromDatabase:
+          name: f1-journey-db
+          property: connectionString
+      - key: F1_CORS_ORIGINS
+        value: '["https://f1-journey.vercel.app"]'
+      - key: F1_JWT_SECRET
+        generateValue: true
+      - key: F1_SEATGEEK_CLIENT_ID
+        sync: false
+      - key: F1_KIWI_API_KEY
+        sync: false
+      - key: F1_ROME2RIO_API_KEY
+        sync: false
+      - key: F1_GOOGLE_CLIENT_ID
+        sync: false
+      - key: F1_GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: F1_RESEND_API_KEY
+        sync: false
+
+databases:
+  - name: f1-journey-db
+    databaseName: f1journey
+    plan: free
