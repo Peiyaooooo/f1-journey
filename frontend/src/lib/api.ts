@@ -206,3 +206,82 @@ export async function fetchCitySuggestions(): Promise<string[]> {
   if (!res.ok) throw new Error("Failed to fetch cities");
   return res.json();
 }
+
+// --- Auth types and functions ---
+
+export interface User {
+  id: number;
+  email: string;
+  home_city: string | null;
+  preferred_currency: string;
+}
+
+export interface TokenResponse {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+}
+
+export async function apiRegister(email: string, password: string, homeCity?: string, currency?: string): Promise<TokenResponse> {
+  const res = await fetch(`${API_URL}/api/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password, home_city: homeCity || null, preferred_currency: currency || "USD" }),
+  });
+  if (!res.ok) { const err = await res.json().catch(() => ({})); throw new Error(err.detail || "Registration failed"); }
+  return res.json();
+}
+
+export async function apiLogin(email: string, password: string): Promise<TokenResponse> {
+  const res = await fetch(`${API_URL}/api/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  if (!res.ok) { const err = await res.json().catch(() => ({})); throw new Error(err.detail || "Login failed"); }
+  return res.json();
+}
+
+export async function apiGetMe(token: string): Promise<User> {
+  const res = await fetch(`${API_URL}/api/auth/me`, { headers: { Authorization: `Bearer ${token}` } });
+  if (!res.ok) throw new Error("Not authenticated");
+  return res.json();
+}
+
+export async function apiGetSavedSearches(token: string): Promise<any[]> {
+  const res = await fetch(`${API_URL}/api/saved-searches`, { headers: { Authorization: `Bearer ${token}` } });
+  if (!res.ok) throw new Error("Failed to fetch saved searches");
+  return res.json();
+}
+
+export async function apiCreateSavedSearch(token: string, data: { search_type: string; name: string; data: Record<string, any> }): Promise<any> {
+  const res = await fetch(`${API_URL}/api/saved-searches`, {
+    method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error("Failed to save search");
+  return res.json();
+}
+
+export async function apiDeleteSavedSearch(token: string, id: number): Promise<void> {
+  await fetch(`${API_URL}/api/saved-searches/${id}`, { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });
+}
+
+export async function apiGetPriceAlerts(token: string): Promise<any[]> {
+  const res = await fetch(`${API_URL}/api/price-alerts`, { headers: { Authorization: `Bearer ${token}` } });
+  if (!res.ok) throw new Error("Failed to fetch alerts");
+  return res.json();
+}
+
+export async function apiCreatePriceAlert(token: string, data: { circuit_id: number; seat_section_id?: number | null; target_price: number }): Promise<any> {
+  const res = await fetch(`${API_URL}/api/price-alerts`, {
+    method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error("Failed to create alert");
+  return res.json();
+}
+
+export async function apiDeletePriceAlert(token: string, id: number): Promise<void> {
+  await fetch(`${API_URL}/api/price-alerts/${id}`, { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });
+}
