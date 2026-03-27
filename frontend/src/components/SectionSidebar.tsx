@@ -1,10 +1,11 @@
 "use client";
 
-import type { SeatSection } from "@/lib/api";
+import type { SeatSection, TicketListing } from "@/lib/api";
 
 interface SectionSidebarProps {
   section: SeatSection | null;
   onClose: () => void;
+  tickets: TicketListing[];
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -14,7 +15,7 @@ const TYPE_LABELS: Record<string, string> = {
   vip: "VIP",
 };
 
-export default function SectionSidebar({ section, onClose }: SectionSidebarProps) {
+export default function SectionSidebar({ section, onClose, tickets }: SectionSidebarProps) {
   if (!section) return null;
 
   const badges = [
@@ -83,9 +84,37 @@ export default function SectionSidebar({ section, onClose }: SectionSidebarProps
         </div>
       )}
 
-      <div className="text-center text-gray-600 text-xs mt-4">
-        Ticket prices coming soon
-      </div>
+      {tickets.length > 0 ? (
+        <div>
+          <div className="text-xs text-gray-500 mb-2 uppercase">Tickets Available</div>
+          <div className="flex flex-col gap-2">
+            {tickets.map((t) => (
+              <a
+                key={t.id}
+                href={t.source_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-gray-800 rounded-lg p-3 flex justify-between items-center hover:bg-gray-700 transition-colors"
+              >
+                <div>
+                  <div className="font-medium text-sm capitalize">{t.source_site.replace(/_/g, " ")}</div>
+                  <div className="text-xs text-gray-400 capitalize">{t.ticket_type.replace(/_/g, " ")}</div>
+                </div>
+                <div className="text-right">
+                  <div className="font-bold text-green-400">{t.currency} {t.price.toFixed(0)}</div>
+                  {t.available_quantity && (
+                    <div className="text-xs text-gray-500">{t.available_quantity} left</div>
+                  )}
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="text-center text-gray-600 text-xs mt-4">
+          No tickets found for this section
+        </div>
+      )}
     </div>
   );
 }

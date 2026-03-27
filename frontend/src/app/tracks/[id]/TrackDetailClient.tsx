@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { SeatSection } from "@/lib/api";
+import type { SeatSection, TicketListing } from "@/lib/api";
 import { getCircuitMapImage } from "@/lib/circuit-maps";
 import CircuitMap from "@/components/CircuitMap";
 import SectionSidebar from "@/components/SectionSidebar";
@@ -12,13 +12,18 @@ interface TrackDetailClientProps {
   centerLat: number;
   centerLng: number;
   sections: SeatSection[];
+  tickets: TicketListing[];
 }
 
-export default function TrackDetailClient({ circuitName, centerLat, centerLng, sections }: TrackDetailClientProps) {
+export default function TrackDetailClient({ circuitName, centerLat, centerLng, sections, tickets }: TrackDetailClientProps) {
   const [activeTab, setActiveTab] = useState<"map" | "table">("map");
   const [selectedSection, setSelectedSection] = useState<SeatSection | null>(null);
 
   const mapImageUrl = getCircuitMapImage(circuitName);
+
+  const sectionTickets = selectedSection
+    ? tickets.filter((t) => t.seat_section_id === selectedSection.id)
+    : [];
 
   function handleSectionClick(section: SeatSection) {
     setSelectedSection(section);
@@ -59,6 +64,7 @@ export default function TrackDetailClient({ circuitName, centerLat, centerLng, s
             <SectionSidebar
               section={selectedSection}
               onClose={() => setSelectedSection(null)}
+              tickets={sectionTickets}
             />
           </div>
         ) : (
@@ -69,6 +75,7 @@ export default function TrackDetailClient({ circuitName, centerLat, centerLng, s
             <SectionSidebar
               section={selectedSection}
               onClose={() => setSelectedSection(null)}
+              tickets={sectionTickets}
             />
           </div>
         )}

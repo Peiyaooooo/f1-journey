@@ -1,7 +1,8 @@
 // frontend/src/app/tracks/[id]/page.tsx
-import { fetchCircuit, fetchRaceEvents, fetchSections, type RaceEvent, type SeatSection } from "@/lib/api";
+import { fetchCircuit, fetchRaceEvents, fetchSections, fetchCircuitTickets, type RaceEvent, type SeatSection, type TicketListing } from "@/lib/api";
 import TrackStats from "@/components/TrackStats";
 import TrackDetailClient from "./TrackDetailClient";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export default async function TrackDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -29,6 +30,13 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ id
     sections = await fetchSections(circuitId);
   } catch {
     sections = [];
+  }
+
+  let tickets: TicketListing[] = [];
+  try {
+    tickets = await fetchCircuitTickets(circuitId);
+  } catch {
+    tickets = [];
   }
 
   return (
@@ -98,7 +106,14 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ id
           centerLat={circuit.latitude}
           centerLng={circuit.longitude}
           sections={sections}
+          tickets={tickets}
         />
+      </div>
+
+      <div className="px-6 py-4">
+        <Link href={`/tracks/${circuitId}/tickets`} className="text-sm text-blue-400 hover:underline">
+          View all ticket prices &rarr;
+        </Link>
       </div>
     </div>
   );
