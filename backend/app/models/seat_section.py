@@ -18,6 +18,7 @@ class SeatSection(Base):
     podium_view: Mapped[bool] = mapped_column(Boolean, default=False)
     capacity: Mapped[int | None] = mapped_column(Integer, nullable=True)
     view_description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    seat_type: Mapped[str | None] = mapped_column(String(30), nullable=True)
     latitude: Mapped[float] = mapped_column(Float)
     longitude: Mapped[float] = mapped_column(Float)
     view_photos: Mapped[str | None] = mapped_column(Text, nullable=True)

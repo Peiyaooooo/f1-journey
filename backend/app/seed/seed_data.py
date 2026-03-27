@@ -13,8 +13,8 @@ from app.models.circuit import Circuit
 from app.models.race_event import RaceEvent
 from app.models.seat_section import SeatSection
 from app.models.ticket_listing import TicketListing
-from app.seed.seat_sections_data import SEAT_SECTIONS
-from app.seed.seed_tickets import seed_tickets
+from app.seed.seat_sections_data_v2 import SEAT_SECTIONS_V2
+from app.seed.seed_tickets_v2 import seed_tickets_v2
 
 # ---------------------------------------------------------------------------
 # Circuit definitions (22 circuits on the 2026 calendar)
@@ -558,7 +558,7 @@ def seed() -> None:
 
         # Insert seat sections
         section_count = 0
-        for circuit_name, sections in SEAT_SECTIONS.items():
+        for circuit_name, sections in SEAT_SECTIONS_V2.items():
             cid = name_to_id.get(circuit_name)
             if cid is None:
                 print(f"Warning: no circuit found for '{circuit_name}', skipping sections")
@@ -575,6 +575,7 @@ def seed() -> None:
                     podium_view=s.get("podium_view", False),
                     capacity=s.get("capacity"),
                     view_description=s.get("view_description"),
+                    seat_type=s.get("seat_type"),
                     latitude=s["latitude"],
                     longitude=s["longitude"],
                     view_photos=json.dumps(s["view_photos"]) if s.get("view_photos") else None,
@@ -600,7 +601,7 @@ def seed() -> None:
             section_map.setdefault(section.circuit_id, {})[section.name] = section.id
 
         # Seed ticket listings
-        ticket_count = seed_tickets(db, name_to_id, event_map, section_map)
+        ticket_count = seed_tickets_v2(db, name_to_id, event_map, section_map)
 
         db.commit()
         circuit_count = db.query(Circuit).count()

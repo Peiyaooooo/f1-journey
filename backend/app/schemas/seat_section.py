@@ -14,6 +14,7 @@ class SeatSectionRead(BaseModel):
     podium_view: bool
     capacity: int | None = None
     view_description: str | None = None
+    seat_type: str | None = None
     latitude: float
     longitude: float
     view_photos: list[str] | None = None
@@ -38,6 +39,7 @@ class SeatSectionList(BaseModel):
     has_screen: bool
     pit_view: bool
     podium_view: bool
+    seat_type: str | None = None
     latitude: float
     longitude: float
 
