@@ -25,5 +25,12 @@ class TicketListingRead(BaseModel):
     @classmethod
     def parse_includes(cls, v):
         if isinstance(v, str):
-            return json.loads(v)
+            try:
+                parsed = json.loads(v)
+                if isinstance(parsed, list):
+                    return parsed
+            except (json.JSONDecodeError, ValueError):
+                pass
+            # Plain text string — wrap in a list
+            return [v]
         return v
