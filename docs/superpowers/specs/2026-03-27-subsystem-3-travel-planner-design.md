@@ -57,7 +57,7 @@ All prices stored in USD.
 
 - `id` (PK)
 - `currency_code` (string, e.g. "EUR", "GBP")
-- `rate_to_usd` (float — 1 USD = X of this currency)
+- `rate_from_usd` (float — 1 USD = X of this currency, e.g. EUR=0.92 means 1 USD = 0.92 EUR)
 - `last_updated_at` (datetime)
 
 ### Relationships
@@ -78,7 +78,9 @@ All prices stored in USD.
    - Save to DB as TravelEstimate
    - Return to frontend
 6. Frontend calculates total trip cost:
+   - Ticket cost comes from the existing `TicketListing` data (already fetched on the track detail page). Use the cheapest available ticket price, or show "N/A" if no tickets scraped yet.
    - `(ticket_price + flight_price + (hotel_per_night × num_nights) + local_transport) × group_size`
+   - `num_nights` is a frontend-only input (default 2), not sent to the API — hotel total is computed client-side.
 7. All prices converted to user's selected currency using cached exchange rates
 
 ## API Endpoints
@@ -130,7 +132,7 @@ class TravelEstimateRead(BaseModel):
 ```python
 class ExchangeRateRead(BaseModel):
     currency_code: str
-    rate_to_usd: float
+    rate_from_usd: float
     last_updated_at: datetime
 ```
 
@@ -183,6 +185,14 @@ New tab on the track detail page alongside "Seat Map" and "Table View":
 - **Per person total**
 - **Group total** (× group size)
 - Currency selector dropdown
+
+## Error Handling
+
+- If Kiwi.com API fails: return cached stale data if available, otherwise return null for flight fields
+- If Rome2Rio API fails: set `train_available=False`, return null for train fields
+- If exchange rate API fails: use last cached rates (stale is better than nothing)
+- If origin city not found in airport mapping: return 400 error with suggestions from the mapping list
+- All API failures logged but never crash the endpoint
 
 ## Dependencies
 
