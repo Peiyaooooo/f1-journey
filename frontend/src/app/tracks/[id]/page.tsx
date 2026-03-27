@@ -1,6 +1,7 @@
 // frontend/src/app/tracks/[id]/page.tsx
-import { fetchCircuit, fetchRaceEvents, type RaceEvent } from "@/lib/api";
+import { fetchCircuit, fetchRaceEvents, fetchSections, type RaceEvent, type SeatSection } from "@/lib/api";
 import TrackStats from "@/components/TrackStats";
+import TrackDetailClient from "./TrackDetailClient";
 import { notFound } from "next/navigation";
 
 export default async function TrackDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -21,6 +22,13 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ id
     raceEvents = allEvents.filter((e) => e.circuit_id === circuitId);
   } catch {
     raceEvents = [];
+  }
+
+  let sections: SeatSection[] = [];
+  try {
+    sections = await fetchSections(circuitId);
+  } catch {
+    sections = [];
   }
 
   return (
@@ -83,9 +91,13 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ id
         </div>
       )}
 
-      {/* Placeholder for future subsystems */}
-      <div className="px-6 py-6 text-center text-gray-600 text-sm">
-        Seat map, ticket prices, and travel planning coming in future updates.
+      {/* Seat Sections */}
+      <div className="py-6">
+        <TrackDetailClient
+          centerLat={circuit.latitude}
+          centerLng={circuit.longitude}
+          sections={sections}
+        />
       </div>
     </div>
   );
