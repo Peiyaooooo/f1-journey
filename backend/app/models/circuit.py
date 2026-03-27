@@ -28,3 +28,4 @@ class Circuit(Base):
     elevation_change: Mapped[float | None] = mapped_column(Float, nullable=True)
 
     race_events: Mapped[list["RaceEvent"]] = relationship(back_populates="circuit")
+    seat_sections: Mapped[list["SeatSection"]] = relationship(back_populates="circuit")
