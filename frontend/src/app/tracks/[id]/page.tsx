@@ -116,6 +116,7 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ id
           sections={sections}
           tickets={tickets}
           exchangeRates={exchangeRates}
+          rainProbabilityPct={circuit.rain_probability_pct}
         />
       </div>
 

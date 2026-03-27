@@ -7,6 +7,7 @@ import CircuitMap from "@/components/CircuitMap";
 import SectionSidebar from "@/components/SectionSidebar";
 import SectionTable from "@/components/SectionTable";
 import TravelTab from "@/components/TravelTab";
+import RainWarning from "@/components/RainWarning";
 
 interface TrackDetailClientProps {
   circuitId: number;
@@ -16,9 +17,10 @@ interface TrackDetailClientProps {
   sections: SeatSection[];
   tickets: TicketListing[];
   exchangeRates: ExchangeRate[];
+  rainProbabilityPct: number;
 }
 
-export default function TrackDetailClient({ circuitId, circuitName, centerLat, centerLng, sections, tickets, exchangeRates }: TrackDetailClientProps) {
+export default function TrackDetailClient({ circuitId, circuitName, centerLat, centerLng, sections, tickets, exchangeRates, rainProbabilityPct }: TrackDetailClientProps) {
   const [activeTab, setActiveTab] = useState<"map" | "table" | "travel">("map");
   const [selectedSection, setSelectedSection] = useState<SeatSection | null>(null);
 
@@ -41,6 +43,9 @@ export default function TrackDetailClient({ circuitId, circuitName, centerLat, c
 
   return (
     <div>
+      {/* Rain Warning */}
+      <RainWarning rainProbabilityPct={rainProbabilityPct} />
+
       {/* Tabs */}
       <div className="flex border-b border-gray-800 px-6">
         <button className={tabClass("map")} onClick={() => setActiveTab("map")}>
@@ -65,6 +70,7 @@ export default function TrackDetailClient({ circuitId, circuitName, centerLat, c
                 sections={sections}
                 selectedSectionId={selectedSection?.id ?? null}
                 onSectionClick={handleSectionClick}
+                rainRisk={rainProbabilityPct}
               />
             </div>
             <SectionSidebar

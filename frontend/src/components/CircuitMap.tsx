@@ -8,6 +8,7 @@ interface CircuitMapProps {
   sections: SeatSection[];
   selectedSectionId: number | null;
   onSectionClick: (section: SeatSection) => void;
+  rainRisk?: number;
 }
 
 const TYPE_COLORS: Record<string, { bg: string; border: string; text: string }> = {
@@ -23,6 +24,7 @@ export default function CircuitMap({
   sections,
   selectedSectionId,
   onSectionClick,
+  rainRisk = 0,
 }: CircuitMapProps) {
   if (!mapImageUrl) {
     return (
@@ -44,23 +46,36 @@ export default function CircuitMap({
       </div>
 
       {/* Section chips below map - clickable to select */}
-      <div className="mt-4 flex flex-wrap gap-2">
+      {rainRisk > 40 && (
+        <p className="mt-3 text-xs text-yellow-400/80">
+          Covered sections highlighted below — recommended when rain is likely.
+        </p>
+      )}
+      <div className="mt-2 flex flex-wrap gap-2">
         {sections.map((section) => {
           const colors = TYPE_COLORS[section.section_type] || TYPE_COLORS.grandstand;
           const isSelected = selectedSectionId === section.id;
+          const isCovered = rainRisk > 40 && section.has_roof;
           return (
             <button
               key={section.id}
               onClick={() => onSectionClick(section)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all cursor-pointer ${
-                isSelected
+                isCovered
+                  ? "bg-yellow-500/15 border-yellow-500/60 text-yellow-300 ring-1 ring-yellow-500/30"
+                  : isSelected
                   ? `${colors.bg} ${colors.border} ${colors.text} ring-1 ring-white/30`
                   : `bg-gray-800 border-gray-700 text-gray-300 hover:${colors.border} hover:${colors.text}`
               }`}
             >
               {section.name}
               {section.location_on_track && (
-                <span className="text-gray-500 ml-1">· {section.location_on_track}</span>
+                <span className={`ml-1 ${isCovered ? "text-yellow-400/60" : "text-gray-500"}`}>
+                  · {section.location_on_track}
+                </span>
+              )}
+              {isCovered && (
+                <span className="ml-1 font-semibold">(Covered)</span>
               )}
             </button>
           );
