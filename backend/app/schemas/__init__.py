@@ -4,6 +4,8 @@ from app.schemas.seat_section import SeatSectionRead, SeatSectionList
 from app.schemas.ticket_listing import TicketListingRead
 from app.schemas.travel import TravelEstimateRead, ExchangeRateRead
 from app.schemas.auth import RegisterRequest, LoginRequest, TokenResponse, RefreshRequest, UserRead
+from app.schemas.saved_search import SavedSearchCreate, SavedSearchRead
+from app.schemas.price_alert import PriceAlertCreate, PriceAlertRead
 
 __all__ = [
     "CircuitBase", "CircuitRead", "CircuitList",
@@ -12,4 +14,6 @@ __all__ = [
     "TicketListingRead",
     "TravelEstimateRead", "ExchangeRateRead",
     "RegisterRequest", "LoginRequest", "TokenResponse", "RefreshRequest", "UserRead",
+    "SavedSearchCreate", "SavedSearchRead",
+    "PriceAlertCreate", "PriceAlertRead",
 ]

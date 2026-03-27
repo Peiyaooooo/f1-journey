@@ -8,6 +8,8 @@ from app.routers.sections import router as sections_router
 from app.routers.tickets import router as tickets_router
 from app.routers.travel import router as travel_router
 from app.routers.auth import router as auth_router
+from app.routers.saved_searches import router as saved_searches_router
+from app.routers.price_alerts import router as price_alerts_router
 
 app = FastAPI(title="F1 Journey API", version="0.1.0")
 
@@ -25,6 +27,8 @@ app.include_router(sections_router)
 app.include_router(tickets_router)
 app.include_router(travel_router)
 app.include_router(auth_router)
+app.include_router(saved_searches_router)
+app.include_router(price_alerts_router)
 
 
 @app.get("/health")
