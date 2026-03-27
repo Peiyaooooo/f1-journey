@@ -21,7 +21,7 @@ export default function TrackStats({
   trackType,
 }: TrackStatsProps) {
   const stats = [
-    { label: "Overtaking", value: `${10 - overtakeDifficulty}/10`, color: "text-yellow-400" },
+    { label: "Overtaking", value: `${10 - overtakeDifficulty}/10`, color: overtakeDifficulty <= 3 ? "text-green-400" : overtakeDifficulty <= 6 ? "text-yellow-400" : "text-red-400" },
     { label: "Avg Overtakes", value: String(avgOvertakes), color: "text-green-400" },
     { label: "Rain Risk", value: `${rainProbabilityPct}%`, color: rainProbabilityPct >= 40 ? "text-red-400" : "text-blue-400" },
     { label: "Length", value: `${trackLengthKm} km`, color: "text-blue-400" },

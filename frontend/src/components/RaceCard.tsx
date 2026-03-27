@@ -13,9 +13,9 @@ interface RaceCardProps {
   sprintWeekend: boolean;
 }
 
-function overtakeColor(score: number): string {
-  if (score >= 7) return "text-green-400";
-  if (score >= 4) return "text-yellow-400";
+function overtakeColor(difficulty: number): string {
+  if (difficulty <= 3) return "text-green-400";
+  if (difficulty <= 6) return "text-yellow-400";
   return "text-red-400";
 }
 
@@ -56,7 +56,7 @@ export default function RaceCard({
         <div className="text-xs text-gray-400 mb-1">{raceName}</div>
         <div className="text-xs text-gray-500 mb-2">{dateStr} &bull; {country}</div>
         <div className="flex gap-3 text-[11px] mb-2">
-          <span className={overtakeColor(10 - overtakeDifficulty)}>
+          <span className={overtakeColor(overtakeDifficulty)}>
             Overtaking: {10 - overtakeDifficulty}/10
           </span>
           <span className={rainColor(rainProbabilityPct)}>
