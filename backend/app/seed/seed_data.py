@@ -14,7 +14,7 @@ from app.models.race_event import RaceEvent
 from app.models.seat_section import SeatSection
 from app.models.ticket_listing import TicketListing
 from app.seed.seat_sections_data_v2 import SEAT_SECTIONS_V2
-from app.seed.seed_tickets_v2 import seed_tickets_v2
+from app.seed.seed_tickets_v3 import seed_tickets_v3
 
 # ---------------------------------------------------------------------------
 # Circuit definitions (22 circuits on the 2026 calendar)
@@ -601,7 +601,7 @@ def seed() -> None:
             section_map.setdefault(section.circuit_id, {})[section.name] = section.id
 
         # Seed ticket listings
-        ticket_count = seed_tickets_v2(db, name_to_id, event_map, section_map)
+        ticket_count = seed_tickets_v3(db, name_to_id, event_map, section_map)
 
         db.commit()
         circuit_count = db.query(Circuit).count()
