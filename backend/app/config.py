@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     cors_origins: list[str] = ["http://localhost:3000"]
     kiwi_api_key: str = ""
     rome2rio_api_key: str = ""
+    seatgeek_client_id: str = ""
 
     model_config = {"env_prefix": "F1_"}
 

@@ -12,7 +12,9 @@ from app.database import Base, SessionLocal, engine
 from app.models.circuit import Circuit
 from app.models.race_event import RaceEvent
 from app.models.seat_section import SeatSection
+from app.models.ticket_listing import TicketListing
 from app.seed.seat_sections_data import SEAT_SECTIONS
+from app.seed.seed_tickets import seed_tickets
 
 # ---------------------------------------------------------------------------
 # Circuit definitions (22 circuits on the 2026 calendar)
@@ -521,7 +523,8 @@ def seed() -> None:
 
     db = SessionLocal()
     try:
-        # Drop existing data and re-seed (seat_sections first due to FK)
+        # Drop existing data and re-seed (ticket_listings first due to FK)
+        db.query(TicketListing).delete()
         db.query(SeatSection).delete()
         db.query(RaceEvent).delete()
         db.query(Circuit).delete()
@@ -579,10 +582,30 @@ def seed() -> None:
                 db.add(seat)
                 section_count += 1
 
+        db.flush()
+
+        # Build maps for ticket seeder
+        # event_map: circuit_name -> race_event_id
+        event_map: dict[str, int] = {}
+        for race_data in RACES_2026:
+            circuit_name = race_data["circuit_name"]
+            cid = name_to_id[circuit_name]
+            event = db.query(RaceEvent).filter_by(circuit_id=cid, season_year=2026).first()
+            if event:
+                event_map[circuit_name] = event.id
+
+        # section_map: circuit_id -> {section_name: section_id}
+        section_map: dict[int, dict[str, int]] = {}
+        for section in db.query(SeatSection).all():
+            section_map.setdefault(section.circuit_id, {})[section.name] = section.id
+
+        # Seed ticket listings
+        ticket_count = seed_tickets(db, name_to_id, event_map, section_map)
+
         db.commit()
         circuit_count = db.query(Circuit).count()
         race_count = db.query(RaceEvent).count()
-        print(f"Seeded {circuit_count} circuits, {race_count} race events, and {section_count} seat sections.")
+        print(f"Seeded {circuit_count} circuits, {race_count} race events, {section_count} seat sections, and {ticket_count} ticket listings.")
     except Exception:
         db.rollback()
         raise
