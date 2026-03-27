@@ -1,6 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import type { SeatSection, TicketListing } from "@/lib/api";
+import { apiCreatePriceAlert } from "@/lib/api";
+import { useAuth } from "@/lib/auth-context";
 
 interface SectionSidebarProps {
   section: SeatSection | null;
@@ -16,6 +19,25 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 export default function SectionSidebar({ section, onClose, tickets }: SectionSidebarProps) {
+  const { isAuthenticated, token } = useAuth();
+  const [alertMsg, setAlertMsg] = useState<string | null>(null);
+
+  async function handleSetAlert(ticket: TicketListing) {
+    if (!token || !section) return;
+    try {
+      await apiCreatePriceAlert(token, {
+        circuit_id: ticket.circuit_id,
+        seat_section_id: section.id,
+        target_price: ticket.price,
+      });
+      setAlertMsg(`Alert set for $${ticket.price.toFixed(0)}`);
+      setTimeout(() => setAlertMsg(null), 3000);
+    } catch {
+      setAlertMsg("Failed to set alert");
+      setTimeout(() => setAlertMsg(null), 3000);
+    }
+  }
+
   if (!section) return null;
 
   const badges = [
@@ -84,29 +106,43 @@ export default function SectionSidebar({ section, onClose, tickets }: SectionSid
         </div>
       )}
 
+      {alertMsg && (
+        <div className="text-xs text-green-400 mb-2">{alertMsg}</div>
+      )}
+
       {tickets.length > 0 ? (
         <div>
           <div className="text-xs text-gray-500 mb-2 uppercase">Tickets Available</div>
           <div className="flex flex-col gap-2">
             {tickets.map((t) => (
-              <a
-                key={t.id}
-                href={t.source_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-gray-800 rounded-lg p-3 flex justify-between items-center hover:bg-gray-700 transition-colors"
-              >
-                <div>
+              <div key={t.id} className="bg-gray-800 rounded-lg p-3 flex justify-between items-center hover:bg-gray-700 transition-colors">
+                <a
+                  href={t.source_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 min-w-0"
+                >
                   <div className="font-medium text-sm capitalize">{t.source_site.replace(/_/g, " ")}</div>
                   <div className="text-xs text-gray-400 capitalize">{t.ticket_type.replace(/_/g, " ")}</div>
-                </div>
-                <div className="text-right">
-                  <div className="font-bold text-green-400">{t.currency} {t.price.toFixed(0)}</div>
-                  {t.available_quantity && (
-                    <div className="text-xs text-gray-500">{t.available_quantity} left</div>
+                </a>
+                <div className="text-right flex items-center gap-2">
+                  <div>
+                    <div className="font-bold text-green-400">{t.currency} {t.price.toFixed(0)}</div>
+                    {t.available_quantity && (
+                      <div className="text-xs text-gray-500">{t.available_quantity} left</div>
+                    )}
+                  </div>
+                  {isAuthenticated && (
+                    <button
+                      onClick={() => handleSetAlert(t)}
+                      className="text-xs text-amber-400 hover:text-amber-300 px-1.5 py-1 rounded border border-amber-400/30 hover:border-amber-400/50"
+                      title="Set price alert"
+                    >
+                      Alert
+                    </button>
                   )}
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         </div>

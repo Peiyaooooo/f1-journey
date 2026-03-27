@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { fetchTravelEstimate, fetchCitySuggestions } from "@/lib/api";
+import { fetchTravelEstimate, fetchCitySuggestions, apiCreateSavedSearch } from "@/lib/api";
 import type { TravelEstimate, ExchangeRate, TicketListing } from "@/lib/api";
 import { detectUserCurrency, convertCurrency, formatCurrency } from "@/lib/currency";
 import CurrencySelector from "@/components/CurrencySelector";
+import { useAuth } from "@/lib/auth-context";
 
 interface TravelTabProps {
   circuitId: number;
@@ -13,6 +14,7 @@ interface TravelTabProps {
 }
 
 export default function TravelTab({ circuitId, exchangeRates, tickets }: TravelTabProps) {
+  const { isAuthenticated, token } = useAuth();
   const [origin, setOrigin] = useState("");
   const [groupSize, setGroupSize] = useState(2);
   const [nights, setNights] = useState(2);
@@ -22,6 +24,25 @@ export default function TravelTab({ circuitId, exchangeRates, tickets }: TravelT
   const [error, setError] = useState<string | null>(null);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [tripSaveMsg, setTripSaveMsg] = useState<string | null>(null);
+
+  async function handleSaveTrip() {
+    if (!token) return;
+    const name = window.prompt("Name this trip:");
+    if (!name) return;
+    try {
+      await apiCreateSavedSearch(token, {
+        search_type: "trip",
+        name,
+        data: { circuit_id: circuitId, origin, group_size: groupSize, nights },
+      });
+      setTripSaveMsg("Trip saved!");
+      setTimeout(() => setTripSaveMsg(null), 3000);
+    } catch {
+      setTripSaveMsg("Failed to save");
+      setTimeout(() => setTripSaveMsg(null), 3000);
+    }
+  }
 
   // Build rates lookup
   const rates: Record<string, number> = {};
@@ -220,6 +241,19 @@ export default function TravelTab({ circuitId, exchangeRates, tickets }: TravelT
               </div>
             </div>
           </div>
+
+          {/* Save Trip Button */}
+          {isAuthenticated && (
+            <div className="mt-4 flex items-center gap-3">
+              <button
+                onClick={handleSaveTrip}
+                className="text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 px-3 py-1.5 rounded"
+              >
+                Save Trip
+              </button>
+              {tripSaveMsg && <span className="text-xs text-green-400">{tripSaveMsg}</span>}
+            </div>
+          )}
         </div>
       )}
 

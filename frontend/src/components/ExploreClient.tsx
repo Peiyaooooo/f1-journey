@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from "react";
 import CircuitCard from "@/components/CircuitCard";
+import { useAuth } from "@/lib/auth-context";
+import { apiCreateSavedSearch } from "@/lib/api";
 
 export interface EnrichedCircuit {
   id: number;
@@ -23,11 +25,33 @@ interface ExploreClientProps {
 type SortField = "name" | "overtaking" | "rain" | "date";
 
 export default function ExploreClient({ circuits }: ExploreClientProps) {
+  const { isAuthenticated, token } = useAuth();
   const [continentFilter, setContinentFilter] = useState("");
   const [trackTypeFilter, setTrackTypeFilter] = useState("");
   const [minOvertaking, setMinOvertaking] = useState(0);
   const [maxRain, setMaxRain] = useState(100);
   const [sortBy, setSortBy] = useState<SortField>("date");
+  const [saveMsg, setSaveMsg] = useState<string | null>(null);
+
+  const hasFilters = continentFilter || trackTypeFilter || minOvertaking > 0 || maxRain < 100;
+
+  async function handleSaveSearch() {
+    if (!token) return;
+    const name = window.prompt("Name this search:");
+    if (!name) return;
+    try {
+      await apiCreateSavedSearch(token, {
+        search_type: "filters",
+        name,
+        data: { continent: continentFilter, track_type: trackTypeFilter, min_overtaking: minOvertaking, max_rain: maxRain, sort: sortBy },
+      });
+      setSaveMsg("Search saved!");
+      setTimeout(() => setSaveMsg(null), 3000);
+    } catch {
+      setSaveMsg("Failed to save");
+      setTimeout(() => setSaveMsg(null), 3000);
+    }
+  }
 
   // Derive unique continents from data
   const continents = useMemo(
@@ -162,10 +186,21 @@ export default function ExploreClient({ circuits }: ExploreClientProps) {
         </select>
       </div>
 
-      {/* Count */}
-      <p className="text-sm text-gray-400 mb-4">
-        Showing {filtered.length} of {circuits.length} circuits
-      </p>
+      {/* Save + Count */}
+      <div className="flex items-center gap-4 mb-4">
+        <p className="text-sm text-gray-400">
+          Showing {filtered.length} of {circuits.length} circuits
+        </p>
+        {isAuthenticated && hasFilters && (
+          <button
+            onClick={handleSaveSearch}
+            className="text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 px-3 py-1.5 rounded"
+          >
+            Save Search
+          </button>
+        )}
+        {saveMsg && <span className="text-xs text-green-400">{saveMsg}</span>}
+      </div>
 
       {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
