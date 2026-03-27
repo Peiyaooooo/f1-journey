@@ -5,6 +5,7 @@ from app.config import settings
 from app.routers.circuits import router as circuits_router
 from app.routers.race_events import router as race_events_router
 from app.routers.sections import router as sections_router
+from app.routers.tickets import router as tickets_router
 
 app = FastAPI(title="F1 Journey API", version="0.1.0")
 
@@ -19,6 +20,7 @@ app.add_middleware(
 app.include_router(circuits_router)
 app.include_router(race_events_router)
 app.include_router(sections_router)
+app.include_router(tickets_router)
 
 
 @app.get("/health")
