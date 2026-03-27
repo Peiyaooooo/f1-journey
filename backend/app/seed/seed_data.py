@@ -5,11 +5,14 @@ Source: https://www.formula1.com/en/racing/2026
 Run: python -m app.seed.seed_data
 """
 
+import json
 from datetime import date
 
 from app.database import Base, SessionLocal, engine
 from app.models.circuit import Circuit
 from app.models.race_event import RaceEvent
+from app.models.seat_section import SeatSection
+from app.seed.seat_sections_data import SEAT_SECTIONS
 
 # ---------------------------------------------------------------------------
 # Circuit definitions (22 circuits on the 2026 calendar)
@@ -518,7 +521,8 @@ def seed() -> None:
 
     db = SessionLocal()
     try:
-        # Drop existing data and re-seed
+        # Drop existing data and re-seed (seat_sections first due to FK)
+        db.query(SeatSection).delete()
         db.query(RaceEvent).delete()
         db.query(Circuit).delete()
         db.commit()
@@ -549,10 +553,36 @@ def seed() -> None:
             )
             db.add(race_event)
 
+        # Insert seat sections
+        section_count = 0
+        for circuit_name, sections in SEAT_SECTIONS.items():
+            cid = name_to_id.get(circuit_name)
+            if cid is None:
+                print(f"Warning: no circuit found for '{circuit_name}', skipping sections")
+                continue
+            for s in sections:
+                seat = SeatSection(
+                    circuit_id=cid,
+                    name=s["name"],
+                    section_type=s["section_type"],
+                    location_on_track=s.get("location_on_track"),
+                    has_roof=s.get("has_roof", False),
+                    has_screen=s.get("has_screen", False),
+                    pit_view=s.get("pit_view", False),
+                    podium_view=s.get("podium_view", False),
+                    capacity=s.get("capacity"),
+                    view_description=s.get("view_description"),
+                    latitude=s["latitude"],
+                    longitude=s["longitude"],
+                    view_photos=json.dumps(s["view_photos"]) if s.get("view_photos") else None,
+                )
+                db.add(seat)
+                section_count += 1
+
         db.commit()
         circuit_count = db.query(Circuit).count()
         race_count = db.query(RaceEvent).count()
-        print(f"Seeded {circuit_count} circuits and {race_count} race events.")
+        print(f"Seeded {circuit_count} circuits, {race_count} race events, and {section_count} seat sections.")
     except Exception:
         db.rollback()
         raise
