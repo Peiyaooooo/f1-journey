@@ -15,7 +15,7 @@ from app.seed.seat_sections_data_v2 import SEAT_SECTIONS_V2
 # ---------------------------------------------------------------------------
 
 GP_PORTAL_URLS: dict[str, str] = {
-    "Albert Park Circuit": "https://www.f1-australia.com.au/en/tickets",
+    "Albert Park Circuit": "https://www.grandprix.com.au",
     "Shanghai International Circuit": "https://www.formula1shanghai.com/en/tickets",
     "Suzuka International Racing Course": "https://www.japan.gp/en/tickets",
     "Miami International Autodrome": "https://www.f1miamiusa.com/en/tickets",
@@ -50,7 +50,7 @@ F1_TICKET_URLS: dict[str, str] = {
     "Miami International Autodrome": "https://www.formula1.com/en/racing/2026/miami",
     "Circuit Gilles Villeneuve": "https://www.formula1.com/en/racing/2026/canada",
     "Circuit de Monaco": "https://www.formula1.com/en/racing/2026/monaco",
-    "Circuit de Barcelona-Catalunya": "https://www.formula1.com/en/racing/2026/spain",
+    "Circuit de Barcelona-Catalunya": "https://www.formula1.com/en/racing/2026/barcelona-catalunya",
     "Red Bull Ring": "https://www.formula1.com/en/racing/2026/austria",
     "Silverstone Circuit": "https://www.formula1.com/en/racing/2026/great-britain",
     "Circuit de Spa-Francorchamps": "https://www.formula1.com/en/racing/2026/belgium",
@@ -65,7 +65,7 @@ F1_TICKET_URLS: dict[str, str] = {
     "Interlagos": "https://www.formula1.com/en/racing/2026/brazil",
     "Las Vegas Street Circuit": "https://www.formula1.com/en/racing/2026/las-vegas",
     "Losail International Circuit": "https://www.formula1.com/en/racing/2026/qatar",
-    "Yas Marina Circuit": "https://www.formula1.com/en/racing/2026/abu-dhabi",
+    "Yas Marina Circuit": "https://www.formula1.com/en/racing/2026/united-arab-emirates",
 }
 
 # ---------------------------------------------------------------------------
@@ -102,28 +102,28 @@ CIRCUIT_RACE_NAME: dict[str, str] = {
 # ---------------------------------------------------------------------------
 
 STUBHUB_URLS: dict[str, str] = {
-    "Albert Park Circuit": "https://www.stubhub.com/australian-grand-prix-tickets",
+    "Albert Park Circuit": "https://www.stubhub.com/f1-australian-grand-prix-melbourne-tickets/performer/100477919",
     "Shanghai International Circuit": "https://www.stubhub.com/chinese-grand-prix-tickets",
     "Suzuka International Racing Course": "https://www.stubhub.com/japanese-grand-prix-tickets",
     "Miami International Autodrome": "https://www.stubhub.com/miami-grand-prix-tickets",
     "Circuit Gilles Villeneuve": "https://www.stubhub.com/canadian-grand-prix-tickets",
     "Circuit de Monaco": "https://www.stubhub.com/monaco-grand-prix-tickets",
     "Circuit de Barcelona-Catalunya": "https://www.stubhub.com/spanish-grand-prix-tickets",
-    "Red Bull Ring": "https://www.stubhub.com/austrian-grand-prix-tickets",
+    "Red Bull Ring": "https://www.stubhub.com/austria-grand-prix-tickets",
     "Silverstone Circuit": "https://www.stubhub.com/british-grand-prix-tickets",
     "Circuit de Spa-Francorchamps": "https://www.stubhub.com/belgian-grand-prix-tickets",
     "Hungaroring": "https://www.stubhub.com/hungarian-grand-prix-tickets",
-    "Circuit Zandvoort": "https://www.stubhub.com/dutch-grand-prix-tickets",
+    "Circuit Zandvoort": "https://www.stubhub.com/formula-1-dutch-grand-prix-tickets",
     "Autodromo Nazionale di Monza": "https://www.stubhub.com/italian-grand-prix-tickets",
-    "Madrid Street Circuit": "https://www.stubhub.com/spanish-grand-prix-madrid-tickets",
-    "Baku City Circuit": "https://www.stubhub.com/azerbaijan-grand-prix-tickets",
+    "Madrid Street Circuit": "https://www.stubhub.com/secure/search?q=Madrid+Grand+Prix+Formula+1",
+    "Baku City Circuit": "https://www.stubhub.com/secure/search?q=Azerbaijan+Grand+Prix+Formula+1",
     "Marina Bay Street Circuit": "https://www.stubhub.com/singapore-grand-prix-tickets",
-    "Circuit of the Americas": "https://www.stubhub.com/united-states-grand-prix-tickets",
-    "Autodromo Hermanos Rodriguez": "https://www.stubhub.com/mexican-grand-prix-tickets",
-    "Interlagos": "https://www.stubhub.com/sao-paulo-grand-prix-tickets",
-    "Las Vegas Street Circuit": "https://www.stubhub.com/las-vegas-grand-prix-tickets",
-    "Losail International Circuit": "https://www.stubhub.com/qatar-grand-prix-tickets",
-    "Yas Marina Circuit": "https://www.stubhub.com/abu-dhabi-grand-prix-tickets",
+    "Circuit of the Americas": "https://www.stubhub.com/formula-1-united-states-grand-prix-tickets",
+    "Autodromo Hermanos Rodriguez": "https://www.stubhub.com/secure/search?q=Mexico+City+Grand+Prix+Formula+1",
+    "Interlagos": "https://www.stubhub.com/brazil-grand-prix-tickets",
+    "Las Vegas Street Circuit": "https://www.stubhub.com/secure/search?q=Las+Vegas+Grand+Prix+Formula+1",
+    "Losail International Circuit": "https://www.stubhub.com/secure/search?q=Qatar+Grand+Prix+Formula+1",
+    "Yas Marina Circuit": "https://www.stubhub.com/secure/search?q=Abu+Dhabi+Grand+Prix+Formula+1",
 }
 
 # ---------------------------------------------------------------------------
@@ -144,7 +144,7 @@ SEATGEEK_URLS: dict[str, str] = {
     "Hungaroring": "https://seatgeek.com/hungarian-grand-prix-tickets",
     "Circuit Zandvoort": "https://seatgeek.com/dutch-grand-prix-tickets",
     "Autodromo Nazionale di Monza": "https://seatgeek.com/italian-grand-prix-tickets",
-    "Madrid Street Circuit": "https://seatgeek.com/spanish-grand-prix-madrid-tickets",
+    "Madrid Street Circuit": "https://seatgeek.com/madrid-grand-prix-tickets",
     "Baku City Circuit": "https://seatgeek.com/azerbaijan-grand-prix-tickets",
     "Marina Bay Street Circuit": "https://seatgeek.com/singapore-grand-prix-tickets",
     "Circuit of the Americas": "https://seatgeek.com/united-states-grand-prix-tickets",
@@ -165,7 +165,7 @@ VIAGOGO_URL = "https://www.viagogo.com/Sports-Tickets/Motorsport/Formula-1"
 def _build_source_url(source: str, circuit_name: str) -> str:
     """Build the source URL for a given source site and circuit."""
     if source == "f1_official":
-        return F1_TICKET_URLS.get(circuit_name, "https://tickets.formula1.com/en")
+        return F1_TICKET_URLS.get(circuit_name, "https://www.formula1.com/en/racing/2026")
     elif source == "gp_portal":
         return GP_PORTAL_URLS.get(circuit_name, "")
     elif source == "stubhub":
