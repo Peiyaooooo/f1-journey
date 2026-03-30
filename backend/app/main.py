@@ -36,3 +36,14 @@ app.include_router(calendar_router)
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+@app.post("/admin/seed")
+def seed_database(secret: str = ""):
+    """One-time seed endpoint. Requires the JWT secret as auth."""
+    if secret != settings.jwt_secret:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=403, detail="Invalid secret")
+    from app.seed.seed_data import seed
+    seed()
+    return {"status": "seeded"}
