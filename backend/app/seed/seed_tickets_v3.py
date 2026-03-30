@@ -17,6 +17,7 @@ from app.seed.verified_tickets import (
     VERIFIED_STUBHUB_EVENT_URLS,
 )
 from app.seed.verified_official_prices import VERIFIED_OFFICIAL_PRICES
+from app.seed.f1_store_sections import F1_STORE_SECTIONS
 
 # ---------------------------------------------------------------------------
 # GP Portal URL mapping (official ticket sites for each circuit)
@@ -171,12 +172,42 @@ SEATGEEK_URLS: dict[str, str] = {
 
 VIAGOGO_URL = "https://www.viagogo.com/Sports-Tickets/Motorsport/Formula-1"
 
+# ---------------------------------------------------------------------------
+# F1 Store section-specific URL lookup (scraped from tickets.formula1.com)
+# Maps (circuit_name, section_name) -> full URL for that specific section
+# ---------------------------------------------------------------------------
 
-def _build_source_url(source: str, circuit_name: str) -> str:
-    """Build the source URL for a given source site and circuit."""
+_F1_STORE_SECTION_URLS: dict[tuple[str, str], str] = {}
+for _circuit, _sections in F1_STORE_SECTIONS.items():
+    for _sec in _sections:
+        _F1_STORE_SECTION_URLS[(_circuit, _sec["name"])] = (
+            f"https://tickets.formula1.com{_sec['url']}"
+        )
+
+
+def _get_f1_section_url(circuit_name: str, section_name: str) -> str | None:
+    """Look up the F1 store section-specific URL for a given section.
+
+    Returns the full URL (e.g. https://tickets.formula1.com/en/f1-3286-belgium/8435-gold-1-pit)
+    or None if no match found.
+    """
+    return _F1_STORE_SECTION_URLS.get((circuit_name, section_name))
+
+
+def _build_source_url(source: str, circuit_name: str, section_name: str = "") -> str:
+    """Build the source URL for a given source site and circuit.
+
+    For f1_official, tries to use section-specific URLs from the F1 store
+    scrape data before falling back to the circuit-level page.
+    """
     if source == "f1_official":
         if circuit_name in F1_TICKET_UNAVAILABLE:
             return GP_PORTAL_URLS.get(circuit_name, "")
+        # Try section-specific URL first
+        if section_name:
+            section_url = _get_f1_section_url(circuit_name, section_name)
+            if section_url:
+                return section_url
         return F1_TICKET_URLS.get(circuit_name, "https://tickets.formula1.com/en")
     elif source == "gp_portal":
         return GP_PORTAL_URLS.get(circuit_name, "")
@@ -445,7 +476,7 @@ def seed_tickets_v3(
             )
 
             # --- Source 1: F1 Official ---
-            f1_url = _build_source_url("f1_official", circuit_name)
+            f1_url = _build_source_url("f1_official", circuit_name, section["name"])
             f1_available = f1_store_avail and not section_sold_out
             f1_includes = includes
             if not f1_store_avail:

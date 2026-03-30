@@ -1210,7 +1210,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Start and Finish Grandstand (Covered)",
+            "name": "Start/Finish Grandstand",
             "section_type": "grandstand",
             "location_on_track": "Start/Finish Straight",
             "has_roof": True,
@@ -1647,7 +1647,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
     # =========================================================================
     "Circuit de Monaco": [
         {
-            "name": "Grandstand A1 (Sainte Devote)",
+            "name": "Grandstand A",
             "section_type": "grandstand",
             "location_on_track": "Sainte Devote (Turn 1)",
             "has_roof": False,
@@ -1672,7 +1672,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand B (Casino Square)",
+            "name": "Grandstand B",
             "section_type": "grandstand",
             "location_on_track": "Casino Square (Turn 4)",
             "has_roof": True,
@@ -1722,7 +1722,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand K1-K2 (Port Hercule)",
+            "name": "Grandstand K",
             "section_type": "grandstand",
             "location_on_track": "Port Hercule, Tabac to Piscine chicane",
             "has_roof": True,
@@ -1797,7 +1797,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand L (Swimming Pool)",
+            "name": "Grandstand L",
             "section_type": "grandstand",
             "location_on_track": "Swimming Pool section exit (Turns 13-14)",
             "has_roof": True,
@@ -1847,7 +1847,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand N (Swimming Pool)",
+            "name": "Grandstand N",
             "section_type": "grandstand",
             "location_on_track": "Swimming Pool area, harbour side",
             "has_roof": True,
@@ -1872,7 +1872,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand O (Swimming Pool)",
+            "name": "Grandstand O",
             "section_type": "grandstand",
             "location_on_track": "Swimming Pool area, harbour side",
             "has_roof": True,
@@ -1897,7 +1897,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand P (Swimming Pool)",
+            "name": "Grandstand P",
             "section_type": "grandstand",
             "location_on_track": "Swimming Pool area, pit stop views",
             "has_roof": True,
@@ -1922,7 +1922,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand T (La Rascasse straight)",
+            "name": "Grandstand T (Lower)",
             "section_type": "grandstand",
             "location_on_track": "Between Swimming Pool chicane and La Rascasse",
             "has_roof": True,
@@ -2534,7 +2534,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "T8 Grandstand",
+            "name": "T8",
             "section_type": "grandstand",
             "location_on_track": "Turn 8",
             "has_roof": False,
@@ -2559,7 +2559,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "T9 Grandstand",
+            "name": "T9",
             "section_type": "grandstand",
             "location_on_track": "Turn 9 (Rindt Kurve)",
             "has_roof": False,
@@ -2584,7 +2584,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Steiermark Grandstand",
+            "name": "Steiermark",
             "section_type": "grandstand",
             "location_on_track": "Between Turns 1-3, hillside",
             "has_roof": False,
@@ -2990,7 +2990,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Hamilton Straight A",
+            "name": "Hamilton Straight",
             "section_type": "grandstand",
             "location_on_track": "Start/Finish Straight (Hamilton Straight)",
             "has_roof": True,
@@ -3396,7 +3396,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
     # =========================================================================
     "Circuit de Spa-Francorchamps": [
         {
-            "name": "Gold 1: Pit",
+            "name": "Gold 1 : Pit",
             "section_type": "grandstand",
             "location_on_track": "Pit Straight, opposite garages",
             "has_roof": True,
@@ -3421,7 +3421,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Gold 2: GP2",
+            "name": "Gold 2 : GP2",
             "section_type": "grandstand",
             "location_on_track": "Between La Source and Eau Rouge",
             "has_roof": True,
@@ -3471,7 +3471,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Gold 4: Eau Rouge",
+            "name": "Gold 4: All In at Raidillon Eau Rouge",
             "section_type": "grandstand",
             "location_on_track": "Eau Rouge/Raidillon (Turns 3-4)",
             "has_roof": False,
@@ -3521,7 +3521,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Gold 7: BIS",
+            "name": "Gold 7 ter",
             "section_type": "grandstand",
             "location_on_track": "La Source hairpin exit (Turn 1)",
             "has_roof": True,
@@ -3546,7 +3546,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Gold 8: La Source",
+            "name": "Gold 8 : Source Start",
             "section_type": "grandstand",
             "location_on_track": "Opposite pit straight, near Turn 1 zone",
             "has_roof": True,
@@ -3571,7 +3571,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Gold 9: Pole Position",
+            "name": "Gold 9 : Pole Position",
             "section_type": "grandstand",
             "location_on_track": "La Source, pole position area",
             "has_roof": True,
@@ -3646,7 +3646,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Silver 3: Pouhon",
+            "name": "Silver 3 : Pouhon",
             "section_type": "grandstand",
             "location_on_track": "Pouhon double-left corner (Turns 10-11)",
             "has_roof": False,
@@ -3696,7 +3696,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Silver 5: Pouhon Exit",
+            "name": "Silver 5",
             "section_type": "grandstand",
             "location_on_track": "Pouhon exit toward Fagnes",
             "has_roof": False,
@@ -3721,7 +3721,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Silver 6: Les Fagnes",
+            "name": "Silver 6",
             "section_type": "grandstand",
             "location_on_track": "Les Fagnes (Turn 12)",
             "has_roof": False,
@@ -3746,7 +3746,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Speed Corner",
+            "name": "Grandstand Speed Corner",
             "section_type": "grandstand",
             "location_on_track": "Turn 9 exit (Speed Corner)",
             "has_roof": False,
@@ -3796,7 +3796,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Bronze Area (General Admission)",
+            "name": "Bronze",
             "section_type": "general_admission",
             "location_on_track": "Nature grandstands around circuit",
             "has_roof": False,
@@ -3821,7 +3821,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Bronze Area Bruxelles",
+            "name": "Raquette Bronze Comfort Zone",
             "section_type": "general_admission",
             "location_on_track": "Bruxelles corner area, pedestrian-only",
             "has_roof": False,
@@ -3852,7 +3852,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
     # =========================================================================
     "Hungaroring": [
         {
-            "name": "Grandstand Hungaroring (Covered)",
+            "name": "Hungaroring Platinium",
             "section_type": "grandstand",
             "location_on_track": "Main Straight, opposite pits",
             "has_roof": True,
@@ -3877,7 +3877,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Podium Grandstand",
+            "name": "Podium",
             "section_type": "grandstand",
             "location_on_track": "Start of finish straight, near podium",
             "has_roof": False,
@@ -3902,7 +3902,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand T1",
+            "name": "T1",
             "section_type": "grandstand",
             "location_on_track": "Turn 1 braking zone",
             "has_roof": False,
@@ -3927,7 +3927,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Grid 1",
+            "name": "Grid 1",
             "section_type": "grandstand",
             "location_on_track": "Grid area, between pit straight and Turn 1",
             "has_roof": False,
@@ -3952,7 +3952,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Grand Prix 2",
+            "name": "Grand Prix 2",
             "section_type": "grandstand",
             "location_on_track": "Turns 4-5 area",
             "has_roof": False,
@@ -3977,7 +3977,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Pit Exit 1",
+            "name": "Pit Exit",
             "section_type": "grandstand",
             "location_on_track": "Pit exit area",
             "has_roof": False,
@@ -4002,7 +4002,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Apex 1",
+            "name": "APEX 1",
             "section_type": "grandstand",
             "location_on_track": "Turn 2-3 area",
             "has_roof": False,
@@ -4027,7 +4027,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Chicane 1",
+            "name": "Chicane 1",
             "section_type": "grandstand",
             "location_on_track": "Chicane (Turns 6-7)",
             "has_roof": False,
@@ -4052,7 +4052,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Fan 2",
+            "name": "FAN",
             "section_type": "grandstand",
             "location_on_track": "Final sector",
             "has_roof": False,
@@ -4183,7 +4183,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Eastside 3 (Banked Turn)",
+            "name": "Eastside Grandstand 3",
             "section_type": "grandstand",
             "location_on_track": "Banked Turn 3",
             "has_roof": False,
@@ -4208,7 +4208,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Arena 1",
+            "name": "Arena Grandstand 1",
             "section_type": "grandstand",
             "location_on_track": "Arena section (Turns 7-8)",
             "has_roof": False,
@@ -4233,7 +4233,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Ben Pon 2 (Silver)",
+            "name": "Ben Pon Grandstand 2",
             "section_type": "grandstand",
             "location_on_track": "Turn 10 area",
             "has_roof": False,
@@ -4314,7 +4314,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
     # =========================================================================
     "Autodromo Nazionale di Monza": [
         {
-            "name": "Grandstand 6 C (Centrale)",
+            "name": "(6c) Alta Velocita C",
             "section_type": "grandstand",
             "location_on_track": "Prima Variante chicane, central apex",
             "has_roof": False,
@@ -4339,7 +4339,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand 6 B",
+            "name": "(6b) Alta Velocita B",
             "section_type": "grandstand",
             "location_on_track": "Prima Variante chicane",
             "has_roof": True,
@@ -4439,7 +4439,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand 8 A",
+            "name": "(8a) Esterna Prima Variante A",
             "section_type": "grandstand",
             "location_on_track": "Prima Variante, outside of track",
             "has_roof": False,
@@ -4464,7 +4464,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand 8 B",
+            "name": "(8b) Esterna Prima Variante B",
             "section_type": "grandstand",
             "location_on_track": "Prima Variante, outside of track",
             "has_roof": False,
@@ -4489,7 +4489,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand 9",
+            "name": "(9) Seconda Variante",
             "section_type": "grandstand",
             "location_on_track": "Curva Grande to Variante Seconda",
             "has_roof": False,
@@ -4514,7 +4514,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand 14 (Variante Seconda)",
+            "name": "(10) Roggia",
             "section_type": "grandstand",
             "location_on_track": "Second chicane (Turns 4-5)",
             "has_roof": False,
@@ -4539,7 +4539,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand 16 (Ascari)",
+            "name": "(16) Ascari",
             "section_type": "grandstand",
             "location_on_track": "Ascari chicane entry",
             "has_roof": False,
@@ -4614,7 +4614,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand 21 A (Parabolica)",
+            "name": "(21c) Laterale Parabolica C",
             "section_type": "grandstand",
             "location_on_track": "Curva Parabolica / Curva Alboreto (Turn 11)",
             "has_roof": False,
@@ -4639,7 +4639,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand 21 B (Parabolica)",
+            "name": "(21e) Laterale Parabolica E",
             "section_type": "grandstand",
             "location_on_track": "Curva Parabolica braking point",
             "has_roof": False,
@@ -5151,7 +5151,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
     # =========================================================================
     "Baku City Circuit": [
         {
-            "name": "Grandstand Absheron C",
+            "name": "Absheron C",
             "section_type": "grandstand",
             "location_on_track": "Start/Finish Straight, centre premium",
             "has_roof": True,
@@ -5176,7 +5176,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Absheron D",
+            "name": "Absheron D",
             "section_type": "grandstand",
             "location_on_track": "Start/Finish Straight, premium wing",
             "has_roof": True,
@@ -5201,7 +5201,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Absheron A",
+            "name": "Absheron A",
             "section_type": "grandstand",
             "location_on_track": "Start/Finish Straight, near finish line",
             "has_roof": True,
@@ -5226,7 +5226,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Absheron B",
+            "name": "Absheron B",
             "section_type": "grandstand",
             "location_on_track": "Start/Finish Straight, opposite wing",
             "has_roof": True,
@@ -5251,7 +5251,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Absheron E",
+            "name": "Absheron E",
             "section_type": "grandstand",
             "location_on_track": "Start/Finish Straight, end section",
             "has_roof": True,
@@ -5276,7 +5276,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Champions",
+            "name": "Champions Grandstand",
             "section_type": "grandstand",
             "location_on_track": "Main Straight, premium section",
             "has_roof": True,
@@ -5301,7 +5301,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Azneft",
+            "name": "Azneft",
             "section_type": "grandstand",
             "location_on_track": "Turn 1 area (Azneft Square)",
             "has_roof": False,
@@ -5326,7 +5326,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Icheri Sheher",
+            "name": "Icheri Sheher",
             "section_type": "grandstand",
             "location_on_track": "Old City section (Turns 8-12)",
             "has_roof": False,
@@ -5351,7 +5351,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Mugham",
+            "name": "Mugham",
             "section_type": "grandstand",
             "location_on_track": "Turn 3-4 area",
             "has_roof": False,
@@ -5376,7 +5376,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Marine",
+            "name": "Sahil",
             "section_type": "grandstand",
             "location_on_track": "Marine area, harbour section",
             "has_roof": False,
@@ -5401,7 +5401,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Khazar",
+            "name": "Khazar",
             "section_type": "grandstand",
             "location_on_track": "Seaside section",
             "has_roof": False,
@@ -5426,7 +5426,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Bulvar",
+            "name": "Bulvar",
             "section_type": "grandstand",
             "location_on_track": "Seaside Boulevard section",
             "has_roof": False,
@@ -5451,7 +5451,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Giz Galasi",
+            "name": "Giz Galasi",
             "section_type": "grandstand",
             "location_on_track": "Near Maiden Tower (Old City area)",
             "has_roof": False,
@@ -5476,7 +5476,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Filarmoniya",
+            "name": "Filarmoniya",
             "section_type": "grandstand",
             "location_on_track": "Near Philharmonic Park",
             "has_roof": False,
@@ -5532,7 +5532,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
     # =========================================================================
     "Marina Bay Street Circuit": [
         {
-            "name": "Super Pit Grandstand",
+            "name": "Pit Grandstand",
             "section_type": "grandstand",
             "location_on_track": "Pit Straight, upper rows above Pit Grandstand",
             "has_roof": True,
@@ -6288,7 +6288,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Turn 9",
+            "name": "Turn 9",
             "section_type": "grandstand",
             "location_on_track": "Turn 9",
             "has_roof": False,
@@ -6313,7 +6313,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Turn 12",
+            "name": "Turn 12",
             "section_type": "grandstand",
             "location_on_track": "Turn 12 hairpin",
             "has_roof": False,
@@ -6338,7 +6338,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Turn 13",
+            "name": "Turn 13",
             "section_type": "grandstand",
             "location_on_track": "Turn 13",
             "has_roof": False,
@@ -6519,7 +6519,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
     # =========================================================================
     "Autodromo Hermanos Rodriguez": [
         {
-            "name": "Grandstand Main 1",
+            "name": "Main Grandstand",
             "section_type": "grandstand",
             "location_on_track": "Start/Finish Straight",
             "has_roof": True,
@@ -6544,7 +6544,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand 4 (Turns 1-3)",
+            "name": "Grandstand 4",
             "section_type": "grandstand",
             "location_on_track": "Turns 1, 2, and 3",
             "has_roof": False,
@@ -6594,7 +6594,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand 6 (Back Straight)",
+            "name": "Grandstand 6",
             "section_type": "grandstand",
             "location_on_track": "Back straight approach",
             "has_roof": False,
@@ -6619,7 +6619,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand 6A",
+            "name": "Grandstand 6-A",
             "section_type": "grandstand",
             "location_on_track": "Mid-section",
             "has_roof": False,
@@ -6669,7 +6669,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand 14 (Stadium Section)",
+            "name": "Grandstand 14",
             "section_type": "grandstand",
             "location_on_track": "Stadium section (Foro Sol)",
             "has_roof": False,
@@ -6694,7 +6694,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand 15 (Stadium Section)",
+            "name": "Grandstand 15",
             "section_type": "grandstand",
             "location_on_track": "Stadium section (Foro Sol), south side",
             "has_roof": False,
@@ -7337,7 +7337,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
     # =========================================================================
     "Losail International Circuit": [
         {
-            "name": "Podium & Main Grandstand",
+            "name": "Main Grandstand",
             "section_type": "grandstand",
             "location_on_track": "Main Straight, centre",
             "has_roof": True,
@@ -7362,7 +7362,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Nord Grandstand",
+            "name": "North Grandstand",
             "section_type": "grandstand",
             "location_on_track": "Main Straight, left side",
             "has_roof": True,
@@ -7387,7 +7387,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand T2",
+            "name": "T2 Grandstand",
             "section_type": "grandstand",
             "location_on_track": "Turn 2",
             "has_roof": False,
@@ -7412,7 +7412,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand T3",
+            "name": "T3 Grandstand",
             "section_type": "grandstand",
             "location_on_track": "Turn 3",
             "has_roof": False,
@@ -7437,7 +7437,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand T16",
+            "name": "T16 Grandstand",
             "section_type": "grandstand",
             "location_on_track": "Turn 16, final sector",
             "has_roof": False,
@@ -7493,7 +7493,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
     # =========================================================================
     "Yas Marina Circuit": [
         {
-            "name": "Grandstand Main",
+            "name": "Main Grandstand",
             "section_type": "grandstand",
             "location_on_track": "Main Straight",
             "has_roof": True,
@@ -7518,7 +7518,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand West",
+            "name": "West Grandstand",
             "section_type": "grandstand",
             "location_on_track": "Turns 6-7 (West section)",
             "has_roof": True,
@@ -7543,7 +7543,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Nord",
+            "name": "North Grandstand",
             "section_type": "grandstand",
             "location_on_track": "Turn 7 hairpin (North section)",
             "has_roof": True,
@@ -7568,7 +7568,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand South",
+            "name": "South Grandstand",
             "section_type": "grandstand",
             "location_on_track": "Turn 11 chicane (South/Marina section)",
             "has_roof": True,
@@ -7593,7 +7593,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand Marina",
+            "name": "Marina Grandstand",
             "section_type": "grandstand",
             "location_on_track": "Marina section (above Support Pit Building)",
             "has_roof": True,
@@ -7618,7 +7618,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand West Straight",
+            "name": "West Straight Grandstand",
             "section_type": "grandstand",
             "location_on_track": "West straight section",
             "has_roof": False,
@@ -7643,7 +7643,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Grandstand North Straight",
+            "name": "North Straight Grandstand",
             "section_type": "grandstand",
             "location_on_track": "North straight section",
             "has_roof": False,
