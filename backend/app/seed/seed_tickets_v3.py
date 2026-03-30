@@ -42,32 +42,32 @@ GP_PORTAL_URLS: dict[str, str] = {
 }
 
 # ---------------------------------------------------------------------------
-# Circuit name -> country slug for F1 Official URLs
+# F1 Official ticket URLs (real URLs with correct event IDs)
 # ---------------------------------------------------------------------------
 
-CIRCUIT_COUNTRY_SLUG: dict[str, str] = {
-    "Albert Park Circuit": "australia",
-    "Shanghai International Circuit": "china",
-    "Suzuka International Racing Course": "japan",
-    "Miami International Autodrome": "miami",
-    "Circuit Gilles Villeneuve": "canada",
-    "Circuit de Monaco": "monaco",
-    "Circuit de Barcelona-Catalunya": "spain",
-    "Red Bull Ring": "austria",
-    "Silverstone Circuit": "great-britain",
-    "Circuit de Spa-Francorchamps": "belgium",
-    "Hungaroring": "hungary",
-    "Circuit Zandvoort": "netherlands",
-    "Autodromo Nazionale di Monza": "italy",
-    "Madrid Street Circuit": "spain-madrid",
-    "Baku City Circuit": "azerbaijan",
-    "Marina Bay Street Circuit": "singapore",
-    "Circuit of the Americas": "united-states",
-    "Autodromo Hermanos Rodriguez": "mexico",
-    "Interlagos": "brazil",
-    "Las Vegas Street Circuit": "las-vegas",
-    "Losail International Circuit": "qatar",
-    "Yas Marina Circuit": "abu-dhabi",
+F1_TICKET_URLS: dict[str, str] = {
+    "Albert Park Circuit": "https://tickets.formula1.com/en/f1-3159-australia",
+    "Shanghai International Circuit": "https://tickets.formula1.com/en/f1-3307-china",
+    "Suzuka International Racing Course": "https://tickets.formula1.com/en/f1-3309-japan",
+    "Miami International Autodrome": "https://tickets.formula1.com/en/f1-54987-miami",
+    "Circuit Gilles Villeneuve": "https://tickets.formula1.com/en/f1-3168-canada",
+    "Circuit de Monaco": "https://tickets.formula1.com/en/f1-3202-monaco",
+    "Circuit de Barcelona-Catalunya": "https://tickets.formula1.com/en/f1-3285-spain",
+    "Red Bull Ring": "https://tickets.formula1.com/en/f1-3236-austria",
+    "Silverstone Circuit": "https://tickets.formula1.com/en/f1-3226-great-britain",
+    "Circuit de Spa-Francorchamps": "https://tickets.formula1.com/en/f1-3163-belgium",
+    "Hungaroring": "https://tickets.formula1.com/en/f1-3184-hungary",
+    "Circuit Zandvoort": "https://tickets.formula1.com/en/f1-3205-netherlands",
+    "Autodromo Nazionale di Monza": "https://tickets.formula1.com/en/f1-3293-italy",
+    "Madrid Street Circuit": "https://tickets.formula1.com/en/f1-3285-spain",
+    "Baku City Circuit": "https://tickets.formula1.com/en/f1-3155-azerbaijan",
+    "Marina Bay Street Circuit": "https://tickets.formula1.com/en/f1-3301-singapore",
+    "Circuit of the Americas": "https://tickets.formula1.com/en/f1-3320-united-states",
+    "Autodromo Hermanos Rodriguez": "https://tickets.formula1.com/en/f1-3200-mexico",
+    "Interlagos": "https://tickets.formula1.com/en/f1-3167-brazil",
+    "Las Vegas Street Circuit": "https://tickets.formula1.com/en/f1-55042-las-vegas",
+    "Losail International Circuit": "https://tickets.formula1.com/en/f1-55041-qatar",
+    "Yas Marina Circuit": "https://tickets.formula1.com/en/f1-3152-abu-dhabi",
 }
 
 # ---------------------------------------------------------------------------
@@ -99,21 +99,50 @@ CIRCUIT_RACE_NAME: dict[str, str] = {
     "Yas Marina Circuit": "Abu Dhabi Grand Prix",
 }
 
+# ---------------------------------------------------------------------------
+# Resale site slugs (for StubHub and SeatGeek deep-link URLs)
+# ---------------------------------------------------------------------------
+
+CIRCUIT_RESALE_SLUG: dict[str, str] = {
+    "Albert Park Circuit": "formula-1-australian-grand-prix",
+    "Shanghai International Circuit": "formula-1-chinese-grand-prix",
+    "Suzuka International Racing Course": "formula-1-japanese-grand-prix",
+    "Miami International Autodrome": "formula-1-miami-grand-prix",
+    "Circuit Gilles Villeneuve": "formula-1-canadian-grand-prix",
+    "Circuit de Monaco": "formula-1-monaco-grand-prix",
+    "Circuit de Barcelona-Catalunya": "formula-1-spanish-grand-prix",
+    "Red Bull Ring": "formula-1-austrian-grand-prix",
+    "Silverstone Circuit": "formula-1-british-grand-prix",
+    "Circuit de Spa-Francorchamps": "formula-1-belgian-grand-prix",
+    "Hungaroring": "formula-1-hungarian-grand-prix",
+    "Circuit Zandvoort": "formula-1-dutch-grand-prix",
+    "Autodromo Nazionale di Monza": "formula-1-italian-grand-prix",
+    "Madrid Street Circuit": "formula-1-spanish-grand-prix",
+    "Baku City Circuit": "formula-1-azerbaijan-grand-prix",
+    "Marina Bay Street Circuit": "formula-1-singapore-grand-prix",
+    "Circuit of the Americas": "formula-1-united-states-grand-prix",
+    "Autodromo Hermanos Rodriguez": "formula-1-mexico-city-grand-prix",
+    "Interlagos": "formula-1-sao-paulo-grand-prix",
+    "Las Vegas Street Circuit": "formula-1-las-vegas-grand-prix",
+    "Losail International Circuit": "formula-1-qatar-grand-prix",
+    "Yas Marina Circuit": "formula-1-abu-dhabi-grand-prix",
+}
+
 
 def _build_source_url(source: str, circuit_name: str) -> str:
     """Build the source URL for a given source site and circuit."""
     race_name = CIRCUIT_RACE_NAME.get(circuit_name, "Formula 1")
     encoded_race = quote_plus(race_name)
+    resale_slug = CIRCUIT_RESALE_SLUG.get(circuit_name, "")
 
     if source == "f1_official":
-        slug = CIRCUIT_COUNTRY_SLUG.get(circuit_name, "")
-        return f"https://tickets.formula1.com/en/f1-XXXX-{slug}"
+        return F1_TICKET_URLS.get(circuit_name, "https://tickets.formula1.com/en")
     elif source == "gp_portal":
         return GP_PORTAL_URLS.get(circuit_name, "")
     elif source == "stubhub":
-        return f"https://www.stubhub.com/search?q={encoded_race}"
+        return f"https://www.stubhub.com/{resale_slug}-tickets/" if resale_slug else f"https://www.stubhub.com/search?q={encoded_race}"
     elif source == "seatgeek":
-        return f"https://seatgeek.com/search?search={encoded_race}"
+        return f"https://seatgeek.com/{resale_slug}-tickets" if resale_slug else f"https://seatgeek.com/search?search={encoded_race}"
     elif source == "viagogo":
         return f"https://www.viagogo.com/search?q={encoded_race}"
     return ""
@@ -203,7 +232,7 @@ def seed_tickets_v3(
 
                 # Build includes text with source context
                 if is_resale:
-                    source_includes = f"{includes} (resale listing)"
+                    source_includes = f"{includes}\nResale marketplace — prices may vary. Verify section name matches before purchasing."
                 else:
                     source_includes = includes
 
