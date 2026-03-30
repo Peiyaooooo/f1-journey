@@ -43,30 +43,35 @@ GP_PORTAL_URLS: dict[str, str] = {
 # F1 Official ticket URLs (real URLs with correct event IDs)
 # ---------------------------------------------------------------------------
 
+# F1 Official Ticket Store URLs (tickets.formula1.com)
+# Australia and Monaco are NOT sold on F1 ticket store — they use their own platforms
 F1_TICKET_URLS: dict[str, str] = {
-    "Albert Park Circuit": "https://www.formula1.com/en/racing/2026/australia",
-    "Shanghai International Circuit": "https://www.formula1.com/en/racing/2026/china",
-    "Suzuka International Racing Course": "https://www.formula1.com/en/racing/2026/japan",
-    "Miami International Autodrome": "https://www.formula1.com/en/racing/2026/miami",
-    "Circuit Gilles Villeneuve": "https://www.formula1.com/en/racing/2026/canada",
-    "Circuit de Monaco": "https://www.formula1.com/en/racing/2026/monaco",
-    "Circuit de Barcelona-Catalunya": "https://www.formula1.com/en/racing/2026/barcelona-catalunya",
-    "Red Bull Ring": "https://www.formula1.com/en/racing/2026/austria",
-    "Silverstone Circuit": "https://www.formula1.com/en/racing/2026/great-britain",
-    "Circuit de Spa-Francorchamps": "https://www.formula1.com/en/racing/2026/belgium",
-    "Hungaroring": "https://www.formula1.com/en/racing/2026/hungary",
-    "Circuit Zandvoort": "https://www.formula1.com/en/racing/2026/netherlands",
-    "Autodromo Nazionale di Monza": "https://www.formula1.com/en/racing/2026/italy",
-    "Madrid Street Circuit": "https://www.formula1.com/en/racing/2026/spain",
-    "Baku City Circuit": "https://www.formula1.com/en/racing/2026/azerbaijan",
-    "Marina Bay Street Circuit": "https://www.formula1.com/en/racing/2026/singapore",
-    "Circuit of the Americas": "https://www.formula1.com/en/racing/2026/united-states",
-    "Autodromo Hermanos Rodriguez": "https://www.formula1.com/en/racing/2026/mexico",
-    "Interlagos": "https://www.formula1.com/en/racing/2026/brazil",
-    "Las Vegas Street Circuit": "https://www.formula1.com/en/racing/2026/las-vegas",
-    "Losail International Circuit": "https://www.formula1.com/en/racing/2026/qatar",
-    "Yas Marina Circuit": "https://www.formula1.com/en/racing/2026/united-arab-emirates",
+    "Shanghai International Circuit": "https://tickets.formula1.com/en/f1-3182-china",
+    "Suzuka International Racing Course": "https://tickets.formula1.com/en/f1-3309-japan",
+    "Miami International Autodrome": "https://tickets.formula1.com/en/f1-54987-miami",
+    "Circuit Gilles Villeneuve": "https://tickets.formula1.com/en/f1-3215-canada",
+    "Circuit de Monaco": "https://monaco-grandprix.com/en/edition/formula-1-grand-prix-de-monaco-2026/tickets/buy-tickets/",
+    "Circuit de Barcelona-Catalunya": "https://tickets.formula1.com/en/f1-3190-spain",
+    "Red Bull Ring": "https://tickets.formula1.com/en/f1-3222-austria",
+    "Silverstone Circuit": "https://tickets.formula1.com/en/f1-3226-great-britain",
+    "Circuit de Spa-Francorchamps": "https://tickets.formula1.com/en/f1-3286-belgium",
+    "Hungaroring": "https://tickets.formula1.com/en/f1-3277-hungary",
+    "Circuit Zandvoort": "https://tickets.formula1.com/en/f1-42837-netherlands",
+    "Autodromo Nazionale di Monza": "https://tickets.formula1.com/en/f1-3293-italy",
+    "Madrid Street Circuit": "https://tickets.formula1.com/en/f1-77449-madrid-spain-gp",
+    "Baku City Circuit": "https://tickets.formula1.com/en/f1-10851-azerbaijan",
+    "Marina Bay Street Circuit": "https://tickets.formula1.com/en/f1-3301-singapore",
+    "Circuit of the Americas": "https://tickets.formula1.com/en/f1-3320-united-states",
+    "Autodromo Hermanos Rodriguez": "https://tickets.formula1.com/en/f1-4861-mexico",
+    "Interlagos": "https://tickets.formula1.com/en/f1-3325-brazil",
+    "Las Vegas Street Circuit": "https://tickets.formula1.com/en/f1-59007-las-vegas",
+    "Losail International Circuit": "https://tickets.formula1.com/en/f1-56257-qatar",
+    "Yas Marina Circuit": "https://tickets.formula1.com/en/f1-3312-abu-dhabi",
 }
+
+# Australia not on F1 ticket store — sold via grandprix.com.au
+# For Albert Park, f1_official source will use GP portal URL instead
+F1_TICKET_UNAVAILABLE = {"Albert Park Circuit"}
 
 # ---------------------------------------------------------------------------
 # Circuit name -> race name (for resale site search queries)
@@ -165,7 +170,10 @@ VIAGOGO_URL = "https://www.viagogo.com/Sports-Tickets/Motorsport/Formula-1"
 def _build_source_url(source: str, circuit_name: str) -> str:
     """Build the source URL for a given source site and circuit."""
     if source == "f1_official":
-        return F1_TICKET_URLS.get(circuit_name, "https://www.formula1.com/en/racing/2026")
+        if circuit_name in F1_TICKET_UNAVAILABLE:
+            # Australia — not on F1 ticket store, use GP portal
+            return GP_PORTAL_URLS.get(circuit_name, "")
+        return F1_TICKET_URLS.get(circuit_name, "https://tickets.formula1.com/en")
     elif source == "gp_portal":
         return GP_PORTAL_URLS.get(circuit_name, "")
     elif source == "stubhub":
