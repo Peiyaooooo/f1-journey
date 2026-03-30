@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 // frontend/src/app/explore/page.tsx
 import ExploreClient from "@/components/ExploreClient";
 import type { EnrichedCircuit } from "@/components/ExploreClient";

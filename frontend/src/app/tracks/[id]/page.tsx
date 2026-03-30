@@ -1,4 +1,6 @@
 // frontend/src/app/tracks/[id]/page.tsx
+export const dynamic = "force-dynamic";
+
 import { fetchCircuit, fetchRaceEvents, fetchSections, fetchCircuitTickets, fetchExchangeRates, type RaceEvent, type SeatSection, type TicketListing, type ExchangeRate } from "@/lib/api";
 import TrackStats from "@/components/TrackStats";
 import TrackDetailClient from "./TrackDetailClient";

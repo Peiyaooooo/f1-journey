@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import ComparisonView from "@/components/ComparisonView";
 import { fetchCircuits, fetchRaceEvents } from "@/lib/api";
 

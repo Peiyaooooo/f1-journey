@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { fetchCircuit, fetchCircuitTickets, fetchUnmatchedTickets } from "@/lib/api";
 import TicketTable from "@/components/TicketTable";
 import Link from "next/link";
