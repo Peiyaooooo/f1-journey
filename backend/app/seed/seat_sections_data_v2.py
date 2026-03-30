@@ -2072,7 +2072,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "General Admission La Rocher",
+            "name": "General Admission Le Rocher",
             "section_type": "general_admission",
             "location_on_track": "Steep hill between Rascasse and Anthony Nogues",
             "has_roof": False,
@@ -3115,7 +3115,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "National Pit Straight",
+            "name": "National Pits Straight",
             "section_type": "grandstand",
             "location_on_track": "Pit Straight, opposite pit garages",
             "has_roof": True,
@@ -3521,7 +3521,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Gold 7: La Source",
+            "name": "Gold 7: BIS",
             "section_type": "grandstand",
             "location_on_track": "La Source hairpin exit (Turn 1)",
             "has_roof": True,
@@ -3621,7 +3621,7 @@ SEAT_SECTIONS_V2: dict[str, list[dict]] = {
             ],
         },
         {
-            "name": "Silver 2: Fan Zone",
+            "name": "Silver 2: Spa",
             "section_type": "grandstand",
             "location_on_track": "Near Eau Rouge, fan zone area",
             "has_roof": False,
