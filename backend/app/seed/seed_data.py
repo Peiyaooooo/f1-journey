@@ -519,6 +519,8 @@ RACES_2026 = [
 
 def seed() -> None:
     """Seed the database with 2026 F1 circuits and race events."""
+    # Drop and recreate all tables to ensure schema is up to date
+    Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
 
     db = SessionLocal()
