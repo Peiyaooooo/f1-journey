@@ -1,5 +1,22 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
+// Helper to fetch with retry for Render cold starts (free tier sleeps after inactivity)
+async function fetchWithRetry(url: string, options?: RequestInit, retries = 2): Promise<Response> {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const res = await fetch(url, { ...options, signal: AbortSignal.timeout(30000) });
+      if (res.ok) return res;
+      if (res.status >= 500 && i < retries) continue;
+      return res;
+    } catch (e) {
+      if (i === retries) throw e;
+      // Wait before retry (Render waking up)
+      await new Promise(r => setTimeout(r, 3000));
+    }
+  }
+  throw new Error("Fetch failed after retries");
+}
+
 export interface CircuitListItem {
   id: number;
   name: string;
@@ -50,13 +67,13 @@ export async function fetchCircuits(params?: {
   const url = new URL(`${API_URL}/api/circuits`);
   if (params?.continent) url.searchParams.set("continent", params.continent);
   if (params?.track_type) url.searchParams.set("track_type", params.track_type);
-  const res = await fetch(url.toString(), { next: { revalidate: 3600 } });
+  const res = await fetchWithRetry(url.toString(), { next: { revalidate: 3600 } });
   if (!res.ok) throw new Error("Failed to fetch circuits");
   return res.json();
 }
 
 export async function fetchCircuit(id: number): Promise<Circuit> {
-  const res = await fetch(`${API_URL}/api/circuits/${id}`, { next: { revalidate: 3600 } });
+  const res = await fetchWithRetry(`${API_URL}/api/circuits/${id}`, { next: { revalidate: 3600 } });
   if (!res.ok) throw new Error("Failed to fetch circuit");
   return res.json();
 }
@@ -68,7 +85,7 @@ export async function fetchRaceEvents(params?: {
   const url = new URL(`${API_URL}/api/race-events`);
   if (params?.season) url.searchParams.set("season", String(params.season));
   if (params?.status) url.searchParams.set("status", params.status);
-  const res = await fetch(url.toString(), { next: { revalidate: 3600 } });
+  const res = await fetchWithRetry(url.toString(), { next: { revalidate: 3600 } });
   if (!res.ok) throw new Error("Failed to fetch race events");
   return res.json();
 }
@@ -103,7 +120,7 @@ export async function fetchSections(
   const url = new URL(`${API_URL}/api/circuits/${circuitId}/sections`);
   if (params?.section_type) url.searchParams.set("section_type", params.section_type);
   if (params?.has_roof !== undefined) url.searchParams.set("has_roof", String(params.has_roof));
-  const res = await fetch(url.toString(), { next: { revalidate: 3600 } });
+  const res = await fetchWithRetry(url.toString(), { next: { revalidate: 3600 } });
   if (!res.ok) throw new Error("Failed to fetch sections");
   return res.json();
 }
@@ -141,7 +158,7 @@ export async function fetchCircuitTickets(
   if (params?.min_price !== undefined) url.searchParams.set("min_price", String(params.min_price));
   if (params?.max_price !== undefined) url.searchParams.set("max_price", String(params.max_price));
   if (params?.sort) url.searchParams.set("sort", params.sort);
-  const res = await fetch(url.toString(), { next: { revalidate: 60 } });
+  const res = await fetchWithRetry(url.toString(), { next: { revalidate: 60 } });
   if (!res.ok) throw new Error("Failed to fetch tickets");
   return res.json();
 }
@@ -196,7 +213,7 @@ export async function fetchTravelEstimate(circuitId: number, origin: string): Pr
 }
 
 export async function fetchExchangeRates(): Promise<ExchangeRate[]> {
-  const res = await fetch(`${API_URL}/api/travel/exchange-rates`, { next: { revalidate: 3600 } });
+  const res = await fetchWithRetry(`${API_URL}/api/travel/exchange-rates`, { next: { revalidate: 3600 } });
   if (!res.ok) throw new Error("Failed to fetch exchange rates");
   return res.json();
 }
