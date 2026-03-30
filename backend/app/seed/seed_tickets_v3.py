@@ -4,7 +4,8 @@ Uses REAL prices from StubHub (scraped via Playwright) and GP portal sites
 (scraped via WebFetch) where available. Falls back to estimated prices based
 on the seat section base price for sources where real data is unavailable.
 
-Data scraped on 2026-03-27.
+GP portal and F1 Official prices verified on 2026-03-27 via WebFetch and
+HTTP status code checks against all 22 circuit ticket pages.
 """
 
 import random
@@ -15,6 +16,7 @@ from app.seed.verified_tickets import (
     VERIFIED_STUBHUB_TICKETS,
     VERIFIED_STUBHUB_EVENT_URLS,
 )
+from app.seed.verified_official_prices import VERIFIED_OFFICIAL_PRICES
 
 # ---------------------------------------------------------------------------
 # GP Portal URL mapping (official ticket sites for each circuit)
@@ -323,16 +325,61 @@ STUBHUB_UNAVAILABLE = {
     "Yas Marina Circuit",
 }
 
-# Circuits where GP portal had no prices or site was down
+# Circuits where GP portal had no prices or site was down (verified 2026-03-27)
 GP_PORTAL_UNAVAILABLE = {
-    "Albert Park Circuit",  # 404
-    "Shanghai International Circuit",  # No prices
-    "Suzuka International Racing Course",  # No prices (reseller)
-    "Interlagos",  # All sold out, no prices
-    "Las Vegas Street Circuit",  # All "Not available"
-    "Marina Bay Street Circuit",  # Widget-based, no prices
-    "Madrid Street Circuit",  # Widget-based, no prices
+    "Albert Park Circuit",  # 2026 race passed; site promoting 2027 registration
+    "Shanghai International Circuit",  # All "Not Available", no prices (2027 page)
+    "Suzuka International Racing Course",  # Reseller site, all "Not Available"
+    "Interlagos",  # All grandstands "Not Available", sold out
+    "Las Vegas Street Circuit",  # All "Not available" (reseller site)
+    "Marina Bay Street Circuit",  # All "Notify me", no prices displayed
+    "Madrid Street Circuit",  # All "Notify me", no prices (widget-based)
 }
+
+
+def _get_verified_official_price(circuit_name: str, section_name: str) -> dict | None:
+    """Look up a verified GP portal price for a section from VERIFIED_OFFICIAL_PRICES.
+
+    Tries exact match first, then fuzzy substring matching.
+    Returns dict with price_usd, status, currency, price_local or None.
+    """
+    circuit_data = VERIFIED_OFFICIAL_PRICES.get(circuit_name)
+    if not circuit_data or not circuit_data.get("sections"):
+        return None
+
+    sections = circuit_data["sections"]
+    section_lower = section_name.lower()
+
+    # Exact match
+    if section_name in sections:
+        return sections[section_name]
+
+    # Fuzzy match: check if any verified section name is a substring or vice versa
+    for verified_name, data in sections.items():
+        verified_lower = verified_name.lower()
+        if (verified_lower in section_lower or
+            section_lower in verified_lower or
+            any(word in section_lower for word in verified_lower.split() if len(word) > 3)):
+            return data
+
+    return None
+
+
+def _is_gp_portal_circuit_available(circuit_name: str) -> bool:
+    """Check if the GP portal for this circuit has any available tickets."""
+    circuit_data = VERIFIED_OFFICIAL_PRICES.get(circuit_name)
+    if not circuit_data:
+        return False
+    status = circuit_data.get("gp_portal_status", "unavailable")
+    return status in ("available", "mostly_sold_out")
+
+
+def _is_f1_store_available(circuit_name: str) -> bool:
+    """Check if the F1 Official store page exists for this circuit."""
+    circuit_data = VERIFIED_OFFICIAL_PRICES.get(circuit_name)
+    if not circuit_data:
+        return circuit_name not in F1_TICKET_UNAVAILABLE
+    return circuit_data.get("f1_store_status") == "available"
 
 
 def seed_tickets_v3(
@@ -374,6 +421,10 @@ def seed_tickets_v3(
         stubhub_unavailable = circuit_name in STUBHUB_UNAVAILABLE
         gp_portal_unavailable = circuit_name in GP_PORTAL_UNAVAILABLE
 
+        # Pre-compute verified official data for this circuit
+        f1_store_avail = _is_f1_store_available(circuit_name)
+        gp_portal_has_any = _is_gp_portal_circuit_available(circuit_name)
+
         for section in sections:
             tickets = section.get("tickets", [])
             if not tickets:
@@ -386,9 +437,27 @@ def seed_tickets_v3(
 
             seat_section_id = circuit_sections.get(section["name"])
 
+            # Look up verified official price for this section
+            verified_official = _get_verified_official_price(circuit_name, section["name"])
+            section_sold_out = (
+                verified_official is not None
+                and verified_official.get("status") in ("sold_out", "not_available")
+            )
+
             # --- Source 1: F1 Official ---
-            # Always create, uses base price from seat section data
             f1_url = _build_source_url("f1_official", circuit_name)
+            f1_available = f1_store_avail and not section_sold_out
+            f1_includes = includes
+            if not f1_store_avail:
+                f1_includes = "Currently unavailable on F1 Official store"
+            elif section_sold_out:
+                f1_includes = "SOLD OUT - Currently unavailable"
+
+            # Use verified price if available, otherwise base price
+            f1_price = base_price
+            if verified_official and verified_official.get("price_usd"):
+                f1_price = verified_official["price_usd"]
+
             listing = TicketListing(
                 circuit_id=circuit_id,
                 race_event_id=race_event_id,
@@ -397,20 +466,44 @@ def seed_tickets_v3(
                 source_url=f1_url,
                 source_section_name=section["name"],
                 ticket_type=ticket_type,
-                price=base_price,
+                price=f1_price,
                 currency="USD",
                 available_quantity=None,
-                includes=includes,
+                includes=f1_includes,
                 last_scraped_at=now,
-                is_available=True,
+                is_available=f1_available,
             )
             db.add(listing)
             count += 1
 
             # --- Source 2: GP Portal ---
             gp_url = _build_source_url("gp_portal", circuit_name)
-            if has_gp_portal:
-                # Try to find a verified price for this section
+
+            if gp_portal_has_any and verified_official and verified_official.get("price_usd"):
+                # We have a verified price from the GP portal
+                gp_price = verified_official["price_usd"]
+                gp_avail = verified_official.get("status") == "available"
+                if gp_avail:
+                    gp_includes = f"{includes}\nVerified price from official GP ticket portal (verified 2026-03-27)"
+                else:
+                    gp_includes = "SOLD OUT - Currently unavailable on GP portal"
+                listing = TicketListing(
+                    circuit_id=circuit_id,
+                    race_event_id=race_event_id,
+                    seat_section_id=seat_section_id,
+                    source_site="gp_portal",
+                    source_url=gp_url,
+                    source_section_name=section["name"],
+                    ticket_type=ticket_type,
+                    price=gp_price,
+                    currency="USD",
+                    available_quantity=None,
+                    includes=gp_includes,
+                    last_scraped_at=now,
+                    is_available=gp_avail,
+                )
+            elif has_gp_portal:
+                # Old path: try fuzzy match from verified_tickets.py
                 verified_gp_price = _get_gp_portal_price_for_section(
                     circuit_name, section["name"], base_price
                 )
@@ -418,7 +511,6 @@ def seed_tickets_v3(
                     gp_price = verified_gp_price
                     gp_includes = f"{includes}\nVerified price from official GP ticket portal (scraped 2026-03-27)"
                 else:
-                    # No exact match — use base price with slight variation
                     gp_price = round(base_price * random.uniform(0.95, 1.02))
                     gp_includes = includes
                 listing = TicketListing(
@@ -434,7 +526,7 @@ def seed_tickets_v3(
                     available_quantity=None,
                     includes=gp_includes,
                     last_scraped_at=now,
-                    is_available=True,
+                    is_available=not section_sold_out,
                 )
             elif gp_portal_unavailable:
                 listing = TicketListing(
@@ -467,7 +559,7 @@ def seed_tickets_v3(
                     available_quantity=None,
                     includes=includes,
                     last_scraped_at=now,
-                    is_available=True,
+                    is_available=not section_sold_out,
                 )
             db.add(listing)
             count += 1
